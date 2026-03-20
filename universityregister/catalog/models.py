@@ -37,6 +37,7 @@ class Course(models.Model):
   def __str__(self):
     """String for representing the Model object."""
     return self.title
+  
 class Student(models.Model):
   """Model representing a student."""
   first_name = models.CharField(max_length=200, help_text='Enter the student first name')
@@ -66,4 +67,4 @@ class ClassGroup(models.Model):
   enrolled_students = models.ManyToManyField(Student, related_name='classes', blank=True)
 
   def __str__(self):
-      return f"Class {self.class_id} for {self.course.title}"
+      return f"Class {self.class_id}, date {self.start_date} for {self.course.title}"
