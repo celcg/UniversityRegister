@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>University Register Home</h1>
+  <p>Welcome to the University Management System!</p>
+  <h2>Dynamic content</h2>
+  <p>The system has the following record counts:</p>
+  <ul>
+    <li><strong>Students:</strong> {{ num_students }}</li>
+    <li><strong>Profesores:</strong> {{ num_profesores }}</li>
+    <li><strong>Courses:</strong> {{ num_courses }}</li>
+    <li><strong>Departments:</strong> {{ num_departments }}</li>
+    <li><strong>Class Groups:</strong> {{ num_classgroups }}</li>
+    <li><strong>Open Classes:</strong> {{ num_classgroups_open }}</li>
+  </ul>
+{% endblock %}
