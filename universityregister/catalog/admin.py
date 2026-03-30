@@ -3,32 +3,88 @@ from django.contrib import admin
 # Register your models here.
 from .models import Profesor, Level, Department, Course, Student, ClassGroup
 
-admin.site.register(Profesor)
-admin.site.register(Level)
-admin.site.register(Department)
-admin.site.register(Course)
-#admin.site.register(Student)
-#admin.site.register(ClassGroup)
-
-# 1. Viewing Students inside the ClassGroup Admin
-@admin.register(ClassGroup)
-class ClassGroupAdmin(admin.ModelAdmin):
-    list_display = ('class_id', 'course', 'start_date', 'status', 'profesor')
-    # This creates a dual-pane selection widget for the enrolled_students ManyToMany field
-    filter_horizontal = ('enrolled_students',) 
-
-
-# 2. Viewing Classes inside the Student Admin
-# We use the automatically created "through" model for the ManyToMany relationship
+# Inlines
 class ClassGroupInline(admin.TabularInline):
+    """Allows managing Class Groups directly inside the Course or Student page."""
+    model = ClassGroup
+    extra = 0
+    fields = ('class_id', 'start_date', 'status', 'profesor')
+
+class StudentEnrollmentInline(admin.TabularInline):
+    """The 'through' model inline for the ManyToMany relationship."""
     model = ClassGroup.enrolled_students.through
-    extra = 0 # Prevents empty blank rows from showing up by default
+    extra = 0
     verbose_name = "Class Enrollment"
     verbose_name_plural = "Class Enrollments"
+class ClassGroupProfesorInline(admin.TabularInline):
+    model = ClassGroup
+    extra = 0  
+    fields = ('class_id', 'course', 'start_date', 'status')
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'head_of_department', 'building_location')
+    # Organizing the department edit form
+    fieldsets = (
+        (None, {
+            'fields': ('name',)
+        }),
+        ('Administration', {
+            'fields': ('head_of_department', 'building_location'),
+        }),
+    )
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('course_code', 'title', 'academic_level', 'department')
+    list_filter = ('academic_level', 'department')
+    search_fields = ('title', 'course_code')
+    # Adding ClassGroup inline so you can see all scheduled classes for this course
+    inlines = [ClassGroupInline]
+
+@admin.register(ClassGroup)
+class ClassGroupAdmin(admin.ModelAdmin):
+    list_display = ('class_id', 'course', 'status', 'start_date', 'profesor', 'maxStudents')
+    list_filter = ('status', 'start_date', 'profesor')
+    search_fields = ('class_id','course__title')
+    
+    # Dual-pane selection for students
+    filter_horizontal = ('enrolled_students',) 
+    
+    fieldsets = (
+        ('General Info', {
+            'fields': ('class_id', 'course', 'profesor')
+        }),
+        ('Schedule & Status', {
+            'fields': ('status', 'schedule', ('start_date', 'end_date'))
+        }),
+        ('Capacity', {
+            'fields': ('maxStudents',),
+            'description': 'Set the limit of students for this specific group.'
+        }),
+        ('Enrollment', {
+            'fields': ('enrolled_students',), # WHERE to display the field of filter_horizontal
+        }),
+    )
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'student_id', 'enrollment_year')
-    search_fields = ('first_name', 'last_name', 'student_id')
-    # This adds the classes directly to the Student edit page
-    inlines = [ClassGroupInline]
+    list_display = ('student_id', 'last_name', 'first_name', 'enrollment_year')
+    list_filter = ('enrollment_year',)
+    search_fields = ('last_name', 'first_name', 'student_id')
+    # Allows seeing which classes a student is in
+    inlines = [StudentEnrollmentInline]
+
+# Simple registrations
+@admin.register(Profesor)
+class ProfesorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'get_total_classes')
+    search_fields = ('name',)
+    inlines = [ClassGroupProfesorInline]
+
+    # extra column to show the total number of classes a profesor is teaching
+    def get_total_classes(self, obj):
+        return obj.classes.count()
+    
+    get_total_classes.short_description = 'Number of Classes'
+
+admin.site.register(Level)
