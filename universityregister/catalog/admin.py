@@ -3,23 +3,10 @@ from django.contrib import admin
 # Register your models here.
 from .models import Profesor, Level, Department, Course, Student, ClassGroup
 
-# Inlines
-class ClassGroupInline(admin.TabularInline):
-    """Allows managing Class Groups directly inside the Course or Student page."""
-    model = ClassGroup
-    extra = 0
-    fields = ('class_id', 'start_date', 'status', 'profesor')
+#LEVEL
+admin.site.register(Level)
 
-class StudentEnrollmentInline(admin.TabularInline):
-    """The 'through' model inline for the ManyToMany relationship."""
-    model = ClassGroup.enrolled_students.through
-    extra = 0
-    verbose_name = "Class Enrollment"
-    verbose_name_plural = "Class Enrollments"
-class ClassGroupProfesorInline(admin.TabularInline):
-    model = ClassGroup
-    extra = 0  
-    fields = ('class_id', 'course', 'start_date', 'status')
+#DEPARTMENT
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'head_of_department', 'building_location')
@@ -33,14 +20,76 @@ class DepartmentAdmin(admin.ModelAdmin):
         }),
     )
 
+#COURSE
+class ClassGroupInline(admin.TabularInline):
+    """Allows managing Class Groups directly inside the Course page."""
+    model = ClassGroup
+    extra = 0
+    fields = ('class_id', 'start_date', 'status', 'profesor')
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_code', 'title', 'academic_level', 'department')
     list_filter = ('academic_level', 'department')
-    search_fields = ('title', 'course_code')
+    search_fields = ('title', 'course_code', 'class_groups__class_id')
+    fields = [
+        ('course_code', 'title'),
+        'academic_level',
+        ('topic', 'description'), 'department' 
+    ]
     # Adding ClassGroup inline so you can see all scheduled classes for this course
     inlines = [ClassGroupInline]
 
+#STUDENT
+# Proxy model for giving a nice __str__ to the intermediate table
+class EnrollmentProxy(ClassGroup.enrolled_students.through):
+    class Meta:
+        proxy = True # This tells Django this is just a proxy for the existing model, not a new table
+
+    def __str__(self):
+        return f"{self.classgroup}"
+
+class StudentEnrollmentInline(admin.TabularInline):
+    """Allows managing Class Groups directly inside the Student page."""
+    model = EnrollmentProxy       # Using the proxy model to have a better string representation in the admin
+    extra = 1
+    verbose_name = "Class Enrollment"
+    verbose_name_plural = "Class Enrollments"
+    
+# ALTERNATIVE WITHOUT PROXY
+# class StudentEnrollmentInline(admin.TabularInline):
+#     """Allows managing Class Groups directly inside the Student page."""
+#     model = ClassGroup.enrolled_students.through
+#     extra = 1
+#     verbose_name = "Class Enrollment"
+#     verbose_name_plural = "Class Enrollments"
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('student_id', 'last_name', 'first_name', 'enrollment_year')
+    list_filter = ('enrollment_year',)
+    search_fields = ('last_name', 'first_name', 'student_id')
+    # Allows seeing which classes a student is in
+    inlines = [StudentEnrollmentInline]
+
+#PROFESOR
+class ClassGroupProfesorInline(admin.TabularInline):
+    """Allows managing Class Groups directly inside the Profesor page."""
+    model = ClassGroup
+    extra = 0  
+    fields = ('class_id', 'course', 'start_date', 'status')
+@admin.register(Profesor)
+class ProfesorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'get_total_classes')
+    search_fields = ('name',)
+    inlines = [ClassGroupProfesorInline]
+
+    # extra column to show the total number of classes a profesor is teaching
+    def get_total_classes(self, obj):
+        return obj.classes.count()
+    
+    get_total_classes.short_description = 'Number of Classes'
+
+#CLASS GROUP
 @admin.register(ClassGroup)
 class ClassGroupAdmin(admin.ModelAdmin):
     list_display = ('class_id', 'course', 'status', 'start_date', 'profesor', 'maxStudents')
@@ -66,25 +115,6 @@ class ClassGroupAdmin(admin.ModelAdmin):
         }),
     )
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_id', 'last_name', 'first_name', 'enrollment_year')
-    list_filter = ('enrollment_year',)
-    search_fields = ('last_name', 'first_name', 'student_id')
-    # Allows seeing which classes a student is in
-    inlines = [StudentEnrollmentInline]
 
-# Simple registrations
-@admin.register(Profesor)
-class ProfesorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_total_classes')
-    search_fields = ('name',)
-    inlines = [ClassGroupProfesorInline]
 
-    # extra column to show the total number of classes a profesor is teaching
-    def get_total_classes(self, obj):
-        return obj.classes.count()
-    
-    get_total_classes.short_description = 'Number of Classes'
 
-admin.site.register(Level)

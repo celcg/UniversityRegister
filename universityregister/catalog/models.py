@@ -66,4 +66,4 @@ class ClassGroup(models.Model):
   enrolled_students = models.ManyToManyField(Student, related_name='classes', blank=True)
 
   def __str__(self):
-      return f"Class {self.class_id}, date {self.start_date} for {self.course.title}"
+      return f"Class {self.class_id} for {self.course.title}"
