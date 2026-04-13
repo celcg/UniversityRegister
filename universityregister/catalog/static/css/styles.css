@@ -1,0 +1,126 @@
+/* 1. GENERAL BODY CONFIGURATION */
+body {
+    /* Soft blue-white background to give the page a cleaner, more "tech" feel */
+    background-color: AliceBlue; 
+    /* Remove default margins to allow sidebar to touch the top */
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. SIDEBAR (Lateral Menu) */
+.col-sm-2 {
+    /* Vertical line separating the menu from the main content */
+    border-right: 0.06rem solid LightGray;
+    /* Darker, more striking background for the sidebar */
+    background-color: MidnightBlue;
+    padding-top: 2rem;
+}
+
+.sidebar-nav {
+    padding: 0;
+    margin: 0;
+    list-style: none; 
+}
+
+.sidebar-nav li {
+    /* Vertical spacing between menu items */
+    margin-bottom: 0.5rem;
+    /* Subtle horizontal line between each menu option, adjusted for dark background */
+    border-bottom: 0.05rem solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav li a {
+    text-decoration: none;
+    /* Light color for text to stand out against MidnightBlue */
+    color: rgb(186, 203, 225);
+    display: block; /**the link transforms into a rectangle that occupies the entire width of its container **/
+    padding: 1rem 0.5rem;
+    font-weight: 500;
+    /* TRANSITION: Smooths out color changes and movement when hovering.
+       Lasts 0.2 seconds with a standard 'ease' timing. */
+    transition: all 0.2s ease;
+}
+
+/* ACTIVE LINK STYLING */
+.sidebar-nav li a.active {
+    /* A lighter blue to distinguish it from the hover state */
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: White;
+    font-weight: bold;
+    /* A small border on the left to make it stand out more */
+    border-left: 0.3rem solid AliceBlue;
+    padding-left: 1.2rem;
+}
+
+.sidebar-nav li a:hover {
+    /* Brighter text and background highlight on hover */
+    color: White;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Visual feedback: slides text to the right on hover */
+    padding-left: 1.2rem;
+}
+
+/* 3. HEADINGS (Improved Title Design) */
+.main-title {
+    /* Large size and extra bold for a modern, professional look */
+    font-size: 3rem;
+    color: MidnightBlue;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    /* Negative letter-spacing makes titles look tighter and more premium */
+    letter-spacing: -0.12rem;
+}
+
+.subtitle {
+    font-size: 1.15rem;
+    color: SteelBlue;
+    /* Extra margin to give the grid room to 'breathe' */
+    margin-bottom: 2rem; 
+    display: block;
+    padding-left: 1rem;
+}
+
+/* 4. GRID CARDS */
+.stat-card {
+    background-color: White;
+    /* 2.5rem internal padding so content doesn't feel cramped */
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-radius: 1.2rem; 
+    /* Remove borders and use shadows instead for a clean 3D feel */
+    border: none; 
+    /* SHADOW: Very subtle and soft blur (using rgba for light transparency) */
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+
+    /* TRANSITION: Animates the card movement.
+       - 'cubic-bezier' adds a slight "bounce" effect at the end of the motion. */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.stat-card:hover {
+    /* Lift the card upwards on hover */
+    transform: translateY(-0.8rem);
+    /* Increases shadow to make the card look closer to the user */
+    box-shadow: 0 1.5rem 3rem Gainsboro;
+}
+
+/* Style for the dynamic numbers passed from Django */
+.number-display {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: RoyalBlue;
+    margin: 0;
+    letter-spacing: -0.1rem;
+}
+
+/* Small titles inside each card */
+.stat-card h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: LightSlateGray;
+    /* Adds space between letters for readability in uppercase */
+    letter-spacing: 0.1rem;
+    margin-bottom: 1rem;
+}

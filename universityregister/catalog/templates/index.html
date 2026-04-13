@@ -1,16 +1,56 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>University Register Home</h1>
-  <p>Welcome to the University Management System!</p>
-  <h2>Dynamic content</h2>
-  <p>The system has the following record counts:</p>
-  <ul>
-    <li><strong>Students:</strong> {{ num_students }}</li>
-    <li><strong>Profesores:</strong> {{ num_profesores }}</li>
-    <li><strong>Courses:</strong> {{ num_courses }}</li>
-    <li><strong>Departments:</strong> {{ num_departments }}</li>
-    <li><strong>Class Groups:</strong> {{ num_classgroups }}</li>
-    <li><strong>Open Classes:</strong> {{ num_classgroups_open }}</li>
-  </ul>
-{% endblock %}
+  <h1 class="main-title">University Register Home</h1>
+  <p class="subtitle">Welcome to the University Management System!</p>
+  
+  {# horizontal container that holds all our boxes #}
+  <div class="row">
+
+    {# defines the GRID logic (how much space the box takes) #}
+    {# 'md-4' = 3 per row on PC | 'sm-6' = 2 per row on phone #}
+    <div class="col-md-4 col-sm-6">
+      {# customCSS class for the visual of the box #}
+      <div class="stat-card">
+        <h3>Students</h3>
+        <p class="number-display">{{ num_students }}</p>
+      </div>
+
+    </div> <div class="col-md-4 col-sm-6">
+      <div class="stat-card">
+        <h3>Professors</h3>
+        <p class="number-display">{{ num_profesores }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card">
+        <h3>Courses</h3>
+        <p class="number-display">{{ num_courses }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card">
+        <h3>Departments</h3>
+        <p class="number-display">{{ num_departments }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card">
+        <h3>Groups</h3>
+        <p class="number-display">{{ num_classgroups }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="stat-card">
+        <h3>Open Classes</h3>
+        <p class="number-display">{{ num_classgroups_open }}</p>
+      </div>
+    </div>
+
+  </div> {# End of the row #}
+
+{% endblock %} 
