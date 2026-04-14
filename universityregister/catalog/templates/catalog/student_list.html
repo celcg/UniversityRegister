@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h1>Students</h1>
+
+  {% if student_list %}
+    <ul>
+      {% for student in student_list %}
+        <li>
+          <a href="{{ student.get_absolute_url }}">
+            {{ student.first_name }} {{ student.last_name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No students available.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h1>{{ course.title }}</h1>
+
+  <p><strong>Course Code:</strong> {{ course.course_code }}</p>
+  <p><strong>Description:</strong> {{ course.description }}</p>
+  <p><strong>Topic:</strong> {{ course.topic }}</p>
+
+  <p><strong>Department:</strong> {{ course.department }}</p>
+  <p><strong>Academic Level:</strong> {{ course.academic_level }}</p>
+
+  <hr>
+
+  <h3>Class Groups</h3>
+
+  {% if course.class_groups.all %}
+    {% for group in course.class_groups.all %}
+      <div style="margin-bottom:15px; padding:10px; border:1px solid #ccc;">
+
+        <p><strong>Group ID:</strong> {{ group.class_id }}</p>
+        <p><strong>Profesor:</strong> <a href="{{ group.profesor.get_absolute_url }}">{{ group.profesor }}</a></p>
+        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+
+        <p>
+          <strong>Status:</strong>
+          {% if group.status == 'OPEN' %}
+            <span style="color:green;">Open</span>
+          {% elif group.status == 'FULL' %}
+            <span style="color:red;">Full</span>
+          {% else %}
+            <span style="color:orange;">Closed</span>
+          {% endif %}
+        </p>
+
+        <p><strong>Max Students:</strong> {{ group.maxStudents }}</p>
+
+        <p>
+          <strong>Enrolled:</strong>
+          {{ group.enrolled_students.count }}
+        </p>
+
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No class groups for this course.</p>
+  {% endif %}
+
+{% endblock %}

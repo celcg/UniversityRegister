@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Courses</h1>
+
+  {% if course_list %}
+    <ul>
+      {% for course in course_list %}
+        <li>
+          <a href="{{ course.get_absolute_url }}">
+            {{ course.title }}
+          </a>
+
+          ({{ course.course_code }})  
+          - {{ course.department }}  
+          - {{ course.academic_level }}
+
+          <br>
+
+          {% with open_groups=course.class_groups.all %}
+            {% if open_groups %}
+              <small>
+                Groups:
+                {% for group in open_groups %}
+                  {% if group.status == 'OPEN' %}
+                    <span style="color:green;">
+                      {{ group.class_id }} (Open)
+                    </span>
+                  {% elif group.status == 'FULL' %}
+                    <span style="color:red;">
+                      {{ group.class_id }} (Full)
+                    </span>
+                  {% else %}
+                    <span style="color:orange;">
+                      {{ group.class_id }} (Closed)
+                    </span>
+                  {% endif %}
+                {% endfor %}
+              </small>
+            {% else %}
+              <small>No groups available</small>
+            {% endif %}
+          {% endwith %}
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No courses available.</p>
+  {% endif %}
+
+{% endblock %}

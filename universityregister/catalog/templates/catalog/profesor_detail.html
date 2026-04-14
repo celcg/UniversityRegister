@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h1>{{ profesor.name }}</h1>
+
+  <hr>
+
+  <h3>Classes taught</h3>
+
+  {% if profesor.classes.all %}
+    {% for group in profesor.classes.all %}
+
+      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+
+        <p><strong>Group:</strong> {{ group.class_id }}</p>
+        <p><strong>Course:</strong> {{ group.course.title }}</p>
+        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+
+        <p>
+          <strong>Status:</strong>
+          {% if group.status == 'OPEN' %}
+            <span style="color:green;">Open</span>
+          {% elif group.status == 'FULL' %}
+            <span style="color:red;">Full</span>
+          {% else %}
+            <span style="color:orange;">Closed</span>
+          {% endif %}
+        </p>
+
+        <p><strong>Max Students:</strong> {{ group.maxStudents }}</p>
+
+        <p>
+          <strong>Enrolled:</strong>
+          {{ group.enrolled_students.count }}
+        </p>
+
+      </div>
+
+    {% endfor %}
+  {% else %}
+    <p>This professor is not assigned to any class.</p>
+  {% endif %}
+
+{% endblock %}

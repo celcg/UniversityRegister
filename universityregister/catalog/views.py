@@ -28,3 +28,23 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
+
+from django.views import generic
+
+class CourseListView(generic.ListView):
+    model = Course
+
+class CourseDetailView(generic.DetailView):
+    model = Course
+
+class ProfesorListView(generic.ListView):
+    model = Profesor
+
+class ProfesorDetailView(generic.DetailView):
+    model = Profesor
+
+class StudentListView(generic.ListView):
+    model = Student
+
+class StudentDetailView(generic.DetailView):
+    model = Student

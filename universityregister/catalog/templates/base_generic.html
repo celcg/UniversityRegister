@@ -19,32 +19,16 @@
         {% block sidebar %}
         <ul class="sidebar-nav">
           <li>
-            <a href="{% url 'index' %}" class="{% if request.path == '/catalog/' %}active{% endif %}">
-              Home
-            </a>
+            <a href="{% url 'index' %}"> Home </a>
           </li>
           <li>
-            <a href="#" class="{% if '/all-courses/' in request.path %}active{% endif %}">
-              All courses
-            </a>
+            <a href="{% url 'courses' %}"> Courses </a>
           </li>
-
           <li>
-            <a href="#" class="{% if '/departments/' in request.path %}active{% endif %}">
-              Departments
-            </a>
+            <a href="{% url 'professors' %}"> Professors </a>
           </li>
-
           <li>
-            <a href="#" class="{% if '/profesors/' in request.path %}active{% endif %}">
-              Professors
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="{% if '/students/' in request.path %}active{% endif %}">
-              Students
-            </a>
+            <a href="{% url 'students' %}"> Students </a>
           </li>
         </ul>
         {% endblock %}

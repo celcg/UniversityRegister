@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+
+  <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+  <p><strong>Enrollment Year:</strong> {{ student.enrollment_year }}</p>
+
+  <hr>
+
+  <h3>Enrolled Classes</h3>
+
+  {% if student.classes.all %}
+    {% for group in student.classes.all %}
+
+      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+
+        <p><strong>Group:</strong> {{ group.class_id }}</p>
+
+        <p><strong>Course:</strong> {{ group.course.title }}</p>
+        <p><strong>Profesor:</strong> <a href="{{ group.profesor.get_absolute_url }}">{{ group.profesor }}</a></p>
+        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+
+        <p>
+          <strong>Status:</strong>
+          {% if group.status == 'OPEN' %}
+            <span style="color:green;">Open</span>
+          {% elif group.status == 'FULL' %}
+            <span style="color:red;">Full</span>
+          {% else %}
+            <span style="color:orange;">Closed</span>
+          {% endif %}
+        </p>
+
+      </div>
+
+    {% endfor %}
+  {% else %}
+    <p>This student is not enrolled in any class.</p>
+  {% endif %}
+
+{% endblock %}

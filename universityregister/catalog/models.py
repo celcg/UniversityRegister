@@ -1,11 +1,16 @@
 from django.db import models
+from django.urls import reverse
 
 class Profesor(models.Model):
   """Model representing a profesor."""
   name = models.CharField(max_length=200, help_text='Enter the profesor name')
+  
   def __str__(self):
     """String for representing the Model object."""
     return self.name
+  
+  def get_absolute_url(self):
+    return reverse('professor-detail', args=[str(self.id)])
 
 class Level(models.Model):
   """Model representing a level of study."""
@@ -37,14 +42,23 @@ class Course(models.Model):
     """String for representing the Model object."""
     return self.title
   
+  def get_absolute_url(self):
+    """Returns the url to access a detail record for this course."""
+    return reverse('course-detail', args=[str(self.id)])
+  
 class Student(models.Model):
   """Model representing a student."""
   first_name = models.CharField(verbose_name='First Name', max_length=200, help_text='Enter the student first name')
   last_name = models.CharField(verbose_name='Last Name', max_length=200, help_text='Enter the student last name')
   student_id = models.CharField(verbose_name='Student ID', max_length=50, unique=True, help_text='Enter the student ID')
   enrollment_year = models.IntegerField(verbose_name='Enrollment Year', blank=True, null=True, help_text='Enter the enrollment year')
+  
   def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.student_id})"
+  
+  def get_absolute_url(self):
+    return reverse('student-detail', args=[str(self.id)])
+
 class ClassGroup(models.Model):
   # Defining placeholder choices for ENROLLMENT_STATUS
   ENROLLMENT_STATUS_CHOICES = [
