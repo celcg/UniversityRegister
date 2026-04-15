@@ -68,7 +68,7 @@
     font-weight: 500;
 }
 
-/* Specific colors using names as requested */
+/* Specific colors for class groups status*/
 .status-badge.open {
     background-color: Honeydew;
     color: Green;

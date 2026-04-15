@@ -33,18 +33,21 @@ from django.views import generic
 
 class CourseListView(generic.ListView):
     model = Course
+    paginate_by = 10
 
 class CourseDetailView(generic.DetailView):
     model = Course
 
 class ProfesorListView(generic.ListView):
     model = Profesor
+    paginate_by = 12
 
 class ProfesorDetailView(generic.DetailView):
     model = Profesor
 
 class StudentListView(generic.ListView):
     model = Student
+    paginate_by = 3
 
 class StudentDetailView(generic.DetailView):
     model = Student

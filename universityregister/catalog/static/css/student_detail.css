@@ -1,0 +1,60 @@
+/* 1. STUDENT INFO SECTION */
+.student-profile-card {
+    background-color: White;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+    border-top: 0.4rem solid RoyalBlue;
+}
+
+.info-grid {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: SlateGray;
+    font-weight: bold;
+    display: block;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: MidnightBlue;
+    font-weight: 600;
+}
+
+/* 2. ENROLLED CLASSES */
+.class-enrollment-card {
+    background-color: White;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.8rem;
+    border: 0.06rem solid LightGrey;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.class-enrollment-card:hover {
+    border-color: RoyalBlue;
+    transform: translateX(0.3rem);
+}
+
+/* 3. STATUS COLORS  */
+.status-open { color: Green; font-weight: bold; }
+.status-full { color: Red; font-weight: bold; }
+.status-closed { color: Orange; font-weight: bold; }
+
+/* 4. LINKS INSIDE CARDS */
+.prof-link {
+    color: RoyalBlue;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.prof-link:hover {
+    text-decoration: underline;
+}

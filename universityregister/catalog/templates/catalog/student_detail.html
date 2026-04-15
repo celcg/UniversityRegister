@@ -1,43 +1,59 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/student_detail.css' %}">
+{% endblock %}
 
 {% block content %}
-
   <h1 class="main-title">{{ student.first_name }} {{ student.last_name }}</h1>
 
-  <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-  <p><strong>Enrollment Year:</strong> {{ student.enrollment_year }}</p>
+  <div class="student-profile-card">
+    <div class="info-grid">
+      <div>
+        <span class="info-label">Student ID</span>
+        <span class="info-value">{{ student.student_id }}</span>
+      </div>
+      <div>
+        <span class="info-label">Enrollment Year</span>
+        <span class="info-value">{{ student.enrollment_year }}</span>
+      </div>
+    </div>
+  </div>
 
   <hr>
 
-  <h3>Enrolled Classes</h3>
+  <h3 class="mb-4">Enrolled Classes</h3>
 
   {% if student.classes.all %}
     {% for group in student.classes.all %}
-
-      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-
-        <p><strong>Group:</strong> {{ group.class_id }}</p>
-
-        <p><strong>Course:</strong> {{ group.course.title }}</p>
-        <p><strong>Profesor:</strong> <a href="{{ group.profesor.get_absolute_url }}">{{ group.profesor }}</a></p>
-        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
-
-        <p>
-          <strong>Status:</strong>
-          {% if group.status == 'OPEN' %}
-            <span style="color:green;">Open</span>
-          {% elif group.status == 'FULL' %}
-            <span style="color:red;">Full</span>
-          {% else %}
-            <span style="color:orange;">Closed</span>
-          {% endif %}
-        </p>
-
+      <div class="class-enrollment-card">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Course:</strong> {{ group.course.title }}</p>
+            <p><strong>Group:</strong> {{ group.class_id }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Professor:</strong> 
+              <a href="{{ group.profesor.get_absolute_url }}" class="prof-link">{{ group.profesor }}</a>
+            </p>
+            <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+            <p>
+              <strong>Status:</strong>
+              {% if group.status == 'OPEN' %}
+                <span class="status-open">Open</span>
+              {% elif group.status == 'FULL' %}
+                <span class="status-full">Full</span>
+              {% else %}
+                <span class="status-closed">Closed</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
       </div>
-
     {% endfor %}
   {% else %}
-    <p>This student is not enrolled in any class.</p>
+    <p class="text-muted">This student is not enrolled in any class.</p>
   {% endif %}
 
 {% endblock %}

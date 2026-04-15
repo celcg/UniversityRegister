@@ -124,3 +124,21 @@ body {
     letter-spacing: 0.1rem;
     margin-bottom: 1rem;
 }
+
+/* PAGINATION STYLING */
+.pagination .page-link {
+    color: RoyalBlue;
+    border-radius: 0.4rem;
+    margin: 0 0.2rem;
+    border: 0.06rem solid LightGray;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: GhostWhite;
+    color: LightSlateGray;
+}
+
+.pagination .page-link:hover {
+    background-color: RoyalBlue;
+    color: White;
+}

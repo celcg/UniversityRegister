@@ -1,0 +1,58 @@
+/* 1. STUDENT LIST CONTAINER */
+.student-list {
+    margin-top: 2rem;
+    padding: 0;
+}
+
+/* 2. STUDENT ROW DESIGN */
+.student-item {
+    background-color: White;
+    /* 1.25rem padding for a spacious feel */
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.6rem;
+    border: 0.06rem solid LightGrey;
+    list-style: none; /* Removes the bullet points */
+    
+    /* FLEXBOX: Aligns the content in a single row */
+    display: flex;
+    align-items: center;
+    
+    /* TRANSITION: Smooth interaction for hover */
+    transition: all 0.2s ease;
+}
+
+.student-item:hover {
+    border-color: RoyalBlue;
+    background-color: GhostWhite;
+    /* Subtle push to the right */
+    transform: translateX(0.4rem);
+}
+
+/* 3. INITIALS CIRCLE (AVATAR) */
+.student-initials {
+    width: 3rem;
+    height: 3rem;
+    background-color: AliceBlue;
+    color: RoyalBlue;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 1.5rem;
+    /* Prevents the circle from squashing */
+    flex-shrink: 0;
+}
+
+/* 4. LINK STYLING */
+.student-link {
+    text-decoration: none;
+    color: MidnightBlue;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.student-link:hover {
+    color: RoyalBlue;
+}

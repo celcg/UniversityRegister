@@ -1,21 +1,62 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/students.css' %}">
+{% endblock %}
 
 {% block content %}
+<h1 class="main-title">Students</h1>
+<p class="subtitle">Enrollment Registry</p>
 
-  <h1 class="main-title">Students</h1>
+{% if student_list %}
+<ul class="student-list">
+  {% for student in student_list %}
+  <li class="student-item">
 
-  {% if student_list %}
-    <ul>
-      {% for student in student_list %}
-        <li>
-          <a href="{{ student.get_absolute_url }}">
-            {{ student.first_name }} {{ student.last_name }}
-          </a>
-        </li>
-      {% endfor %}
+    {# Icon with first letter of first and last name #}
+    <div class="student-initials">
+      {{ student.first_name|slice:":1" }}{{ student.last_name|slice:":1" }}
+    </div>
+
+    <a href="{{ student.get_absolute_url }}" class="student-link">
+      {{ student.first_name }} {{ student.last_name }}
+    </a>
+
+  </li>
+  {% endfor %}
+</ul>
+{# Pagination Controls #}
+{% if is_paginated %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-4">
+
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+      {% endif %}
+
     </ul>
-  {% else %}
-    <p>No students available.</p>
+  </nav>
   {% endif %}
-
+{% else %}
+  <p>No students available.</p>
+{% endif %}
 {% endblock %}
