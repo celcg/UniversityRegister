@@ -1,50 +1,71 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/course_detail.css' %}">
+{% endblock %}
 
 {% block content %}
+  <div class="detail-header">
+    <h1 class="main-title">{{ course.title }}</h1>
+  </div>
 
-  <h1>{{ course.title }}</h1>
+  <div class="info-section">
+    <div class="info-item">
+      <span class="info-label">Description</span>
+      <p>{{ course.description }}</p>
+    </div>
 
-  <p><strong>Course Code:</strong> {{ course.course_code }}</p>
-  <p><strong>Description:</strong> {{ course.description }}</p>
-  <p><strong>Topic:</strong> {{ course.topic }}</p>
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Course Code:</strong> {{ course.course_code }}</p>
+        <p><strong>Topic:</strong> {{ course.topic }}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Department:</strong> {{ course.department }}</p>
+        <p><strong>Academic Level:</strong> {{ course.academic_level }}</p>
+      </div>
+    </div>
+  </div>
 
-  <p><strong>Department:</strong> {{ course.department }}</p>
-  <p><strong>Academic Level:</strong> {{ course.academic_level }}</p>
-
-  <hr>
-
-  <h3>Class Groups</h3>
+  <h3 class="groups-title">Class Groups</h3>
 
   {% if course.class_groups.all %}
     {% for group in course.class_groups.all %}
-      <div style="margin-bottom:15px; padding:10px; border:1px solid #ccc;">
+      <div class="group-detail-card">
+        <div class="row">
+          <div class="col-md-4">
+            <p><strong>Group ID:</strong> {{ group.class_id }}</p>
+            <p><strong>Professor:</strong> 
+              <a href="{{ group.profesor.get_absolute_url }}">{{ group.profesor }}</a>
+            </p>
+          </div>
+          
+          <div class="col-md-4">
+            <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+            <p>
+              <strong>Status:</strong>
+              {# Traditional IF/ELSE logic reverted here #}
+              {% if group.status == 'OPEN' %}
+                <span class="status-text status-open">Open</span>
+              {% elif group.status == 'FULL' %}
+                <span class="status-text status-full">Full</span>
+              {% else %}
+                <span class="status-text status-closed">Closed</span>
+              {% endif %}
+            </p>
+          </div>
 
-        <p><strong>Group ID:</strong> {{ group.class_id }}</p>
-        <p><strong>Profesor:</strong> <a href="{{ group.profesor.get_absolute_url }}">{{ group.profesor }}</a></p>
-        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
-
-        <p>
-          <strong>Status:</strong>
-          {% if group.status == 'OPEN' %}
-            <span style="color:green;">Open</span>
-          {% elif group.status == 'FULL' %}
-            <span style="color:red;">Full</span>
-          {% else %}
-            <span style="color:orange;">Closed</span>
-          {% endif %}
-        </p>
-
-        <p><strong>Max Students:</strong> {{ group.maxStudents }}</p>
-
-        <p>
-          <strong>Enrolled:</strong>
-          {{ group.enrolled_students.count }}
-        </p>
-
+          <div class="col-md-4 text-center">
+            <div class="enrollment-bar">
+              <strong>Enrolled:</strong> 
+              {{ group.enrolled_students.count }} / {{ group.maxStudents }}
+            </div>
+          </div>
+        </div>
       </div>
     {% endfor %}
   {% else %}
     <p>No class groups for this course.</p>
   {% endif %}
-
 {% endblock %}

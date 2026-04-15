@@ -1,0 +1,70 @@
+/* 1. PROFESSOR CARD DESIGN */
+.prof-card {
+    background-color: White;
+    padding: 2.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-radius: 1rem;
+    border: 0.06rem solid LightGrey;
+    
+    /* Ensure the card takes up the full width of the Bootstrap column */
+    width: 100%;
+
+    /* FLEXBOX: These properties help center content vertically 
+       if one card is taller than others due to long names. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    /* SHADOW: Subtle depth using a very transparent black */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+
+    /* TRANSITION: Animates the lift effect smoothly over 0.3 seconds */
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prof-card:hover {
+    /* Moves the card 0.5rem up when hovered */
+    transform: translateY(-0.5rem);
+    border-color: RoyalBlue;
+    box-shadow: 0 1rem 2rem Gainsboro;
+}
+
+/* 2. AVATAR CIRCLE */
+.prof-avatar {
+    /* Fixed sizes using rem units */
+    width: 5rem;
+    height: 5rem;
+    background-color: AliceBlue;
+    color: RoyalBlue;
+    border-radius: 50%;
+    
+    /* Centers the letter perfectly inside the circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Center the circle horizontally in the card */
+    margin: 0 auto 1.5rem;
+    
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* Prevents the circle from shrinking if the text is long */
+    flex-shrink: 0;
+}
+
+/* 3. LINK AND TEXT STYLING */
+.prof-link {
+    text-decoration: none;
+    color: MidnightBlue;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    /* Allows the name to wrap to multiple lines if it is very long */
+    word-wrap: break-word;
+}
+
+.prof-link:hover {
+    color: RoyalBlue;
+}

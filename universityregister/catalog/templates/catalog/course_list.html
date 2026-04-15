@@ -1,52 +1,44 @@
 {% extends "base_generic.html" %}
-
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+{% endblock %}
 {% block content %}
-  <h1>Courses</h1>
+  <h1 class="main-title">Courses</h1>
 
   {% if course_list %}
-    <ul>
+    <div class="course-container">
       {% for course in course_list %}
-        <li>
-          <a href="{{ course.get_absolute_url }}">
-            {{ course.title }}
-          </a>
+        <div class="course-card">
+          <div class="course-header">
+            <a href="{{ course.get_absolute_url }}" class="course-title">
+              {{ course.title }}
+            </a>
+            <span class="course-code">{{ course.course_code }}</span>
+          </div>
 
-          ({{ course.course_code }})  
-          - {{ course.department }}  
-          - {{ course.academic_level }}
+          <p class="course-info">
+            {{ course.department }} • {{ course.academic_level }}
+          </p>
 
-          <br>
-
-          {% with open_groups=course.class_groups.all %}
-            {% if open_groups %}
-              <small>
-                Groups:
+          <div class="group-section">
+            <span class="group-label">Groups:</span>
+            {% with open_groups=course.class_groups.all %}
+              {% if open_groups %}
                 {% for group in open_groups %}
-                  {% if group.status == 'OPEN' %}
-                    <span style="color:green;">
-                      {{ group.class_id }} (Open)
-                    </span>
-                  {% elif group.status == 'FULL' %}
-                    <span style="color:red;">
-                      {{ group.class_id }} (Full)
-                    </span>
-                  {% else %}
-                    <span style="color:orange;">
-                      {{ group.class_id }} (Closed)
-                    </span>
-                  {% endif %}
+                  <span class="status-badge {{ group.status|lower }}">
+                    {{ group.class_id }} ({{ group.status|title }})
+                  </span>
                 {% endfor %}
-              </small>
-            {% else %}
-              <small>No groups available</small>
-            {% endif %}
-          {% endwith %}
-
-        </li>
+              {% else %}
+                <span class="no-groups">No groups available</span>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     <p>No courses available.</p>
   {% endif %}
-
 {% endblock %}

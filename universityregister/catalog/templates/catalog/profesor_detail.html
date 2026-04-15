@@ -1,43 +1,49 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/professor_detail.css' %}">
+{% endblock %}
 
 {% block content %}
+  <h1 class="main-title">{{ profesor.name }}</h1>
+  <p class="subtitle">Professor Academic Profile</p>
 
-  <h1>{{ profesor.name }}</h1>
-
-  <hr>
-
-  <h3>Classes taught</h3>
+  <h3 class="section-title">Classes taught</h3>
 
   {% if profesor.classes.all %}
-    {% for group in profesor.classes.all %}
+    <div class="class-list">
+      {% for group in profesor.classes.all %}
+        <div class="class-card">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Group:</strong> {{ group.class_id }}</p>
+              <p><strong>Course:</strong> {{ group.course.title }}</p>
+              <p><strong>Schedule:</strong> {{ group.schedule }}</p>
+            </div>
+            
+            <div class="col-md-6">
+              <p>
+                <strong>Status:</strong>
+                {# Regresamos al sistema manual de IF/ELSE que prefieres #}
+                {% if group.status == 'OPEN' %}
+                  <span class="status-open">Open</span>
+                {% elif group.status == 'FULL' %}
+                  <span class="status-full">Full</span>
+                {% else %}
+                  <span class="status-closed">Closed</span>
+                {% endif %}
+              </p>
 
-      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-
-        <p><strong>Group:</strong> {{ group.class_id }}</p>
-        <p><strong>Course:</strong> {{ group.course.title }}</p>
-        <p><strong>Schedule:</strong> {{ group.schedule }}</p>
-
-        <p>
-          <strong>Status:</strong>
-          {% if group.status == 'OPEN' %}
-            <span style="color:green;">Open</span>
-          {% elif group.status == 'FULL' %}
-            <span style="color:red;">Full</span>
-          {% else %}
-            <span style="color:orange;">Closed</span>
-          {% endif %}
-        </p>
-
-        <p><strong>Max Students:</strong> {{ group.maxStudents }}</p>
-
-        <p>
-          <strong>Enrolled:</strong>
-          {{ group.enrolled_students.count }}
-        </p>
-
-      </div>
-
-    {% endfor %}
+              <div class="enrollment-info">
+                <strong>Enrollment:</strong> 
+                {{ group.enrolled_students.count }} / {{ group.maxStudents }} students
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   {% else %}
     <p>This professor is not assigned to any class.</p>
   {% endif %}

@@ -1,0 +1,88 @@
+/* 1. COURSE LIST CONTAINER */
+.course-container {
+    /* rem units ensure spacing is relative to the user's font size */
+    margin-top: 1.5rem;
+}
+
+/* 2. COURSE CARD DESIGN */
+.course-card {
+    background-color: White;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+    /* A bold indicator line on the left to highlight the entry */
+    border-left: 0.3rem solid RoyalBlue; 
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    
+    /* TRANSITION: Animates the card movement when the mouse enters/leaves */
+    transition: transform 0.2s ease-out;
+}
+
+.course-card:hover {
+    /* Slides the card 0.5rem to the right to show it is selected */
+    transform: translateX(0.5rem); 
+}
+
+/* 3. TEXT AND TITLES */
+.course-header {
+    /* Flexbox aligns the title to the left and the code to the right */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.course-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: MidnightBlue;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.course-title:hover {
+    color: RoyalBlue;
+}
+
+.course-code {
+    font-size: 0.9rem;
+    color: SlateGray;
+    font-weight: bold;
+    background-color: GhostWhite;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.4rem;
+}
+
+/* 4. STATUS BADGES FOR GROUPS */
+.group-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: 500;
+}
+
+/* Specific colors using names as requested */
+.status-badge.open {
+    background-color: Honeydew;
+    color: Green;
+    border: 0.05rem solid MediumSeaGreen;
+}
+
+.status-badge.full {
+    background-color: MistyRose;
+    color: Red;
+    border: 0.05rem solid LightCoral;
+}
+
+.status-badge.closed {
+    background-color: OldLace;
+    color: Orange;
+    border: 0.05rem solid Orange;
+}

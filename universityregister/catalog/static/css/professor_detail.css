@@ -1,0 +1,69 @@
+/* 1. HEADER AREA */
+.prof-detail-header {
+    /* Large bottom margin to separate the name from the classes */
+    margin-bottom: 3rem;
+}
+
+/* 2. CLASS CARDS CONTAINER */
+.class-list {
+    margin-top: 2rem;
+}
+
+/* 3. CLASS CARD DESIGN */
+.class-card {
+    background-color: White;
+    /* 1.5rem padding using relative units for consistent scaling */
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0.8rem;
+    /* Subtle border instead of the heavy 1px solid #ccc */
+    border: 0.06rem solid LightGrey;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    
+    /* TRANSITION: Smooth interaction when the user hovers */
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.class-card:hover {
+    border-color: RoyalBlue;
+    /* Subtle slide effect */
+    transform: translateX(0.3rem);
+}
+
+/* 4. TEXT STYLING INSIDE CARDS */
+.class-card p {
+    margin-bottom: 0.5rem;
+    color: DarkSlateGray;
+}
+
+.class-card strong {
+    color: MidnightBlue;
+    /* Makes the labels stand out slightly more */
+    font-weight: 600;
+}
+
+/* 5. STATUS TEXT COLORS (Using color names) */
+.status-open {
+    color: Green;
+    font-weight: bold;
+}
+
+.status-full {
+    color: Red;
+    font-weight: bold;
+}
+
+.status-closed {
+    color: Orange;
+    font-weight: bold;
+}
+
+/* 6. METRIC BOX (For student counts) */
+.enrollment-info {
+    background-color: AliceBlue;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    display: inline-block;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}

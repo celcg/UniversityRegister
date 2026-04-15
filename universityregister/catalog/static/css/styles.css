@@ -37,7 +37,7 @@ body {
     padding: 1rem 0.5rem;
     font-weight: 500;
     /* TRANSITION: Smooths out color changes and movement when hovering.
-       Lasts 0.2 seconds with a standard 'ease' timing. */
+       Lasts 0.2 seconds wisth a standard 'ease' timing. */
     transition: all 0.2s ease;
 }
 

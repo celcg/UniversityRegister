@@ -1,0 +1,72 @@
+/* 1. HEADER SECTION */
+.detail-header {
+    /* rem units ensure the layout scales with user settings */
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.1rem solid LightGray;
+}
+
+/* 2. INFORMATION GRID */
+.info-section {
+    background-color: White;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.info-item {
+    margin-bottom: 1rem;
+}
+
+.info-label {
+    font-weight: bold;
+    color: MidnightBlue;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    display: block;
+}
+
+/* 3. CLASS GROUPS LIST */
+.groups-title {
+    color: MidnightBlue;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.group-detail-card {
+    background-color: White;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border-radius: 0.75rem;
+    border: 0.06rem solid LightGrey;
+    
+    /* TRANSITION: Smoothly reacts to mouse hover */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.group-detail-card:hover {
+    box-shadow: 0 0.5rem 1rem Gainsboro;
+    border-color: RoyalBlue;
+}
+
+/* 4. STATUS INDICATORS */
+.status-text {
+    font-weight: bold;
+}
+
+/* Using color names as requested */
+.status-open { color: Green; }
+.status-full { color: Red; }
+.status-closed { color: Orange; }
+
+/* 5. ENROLLMENT COUNTER */
+.enrollment-bar {
+    background-color: GhostWhite;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: SlateGray;
+}

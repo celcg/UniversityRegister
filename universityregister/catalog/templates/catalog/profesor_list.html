@@ -1,21 +1,33 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/professors.css' %}">
+{% endblock %}
 
 {% block content %}
-
-  <h1>Professors</h1>
+  <h1 class="main-title">University Professors</h1>
+  <p class="subtitle">Our academic staff directory.</p>
 
   {% if profesor_list %}
-    <ul>
+    <div class="row">
       {% for profesor in profesor_list %}
-        <li>
-          <a href="{{ profesor.get_absolute_url }}">
-            {{ profesor.name }}
-          </a>
-        </li>
+        <div class="col-md-4 col-sm-6 d-flex align-items-stretch">
+          <div class="prof-card">
+            
+            <div class="prof-avatar">
+              {{ profesor.name|slice:":1" }}
+            </div>
+
+            <a href="{{ profesor.get_absolute_url }}" class="prof-link">
+              {{ profesor.name }}
+            </a>
+            
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     <p>No professors available.</p>
   {% endif %}
-
 {% endblock %}
