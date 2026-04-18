@@ -142,3 +142,46 @@ body {
     background-color: RoyalBlue;
     color: White;
 }
+
+/* SEARCH BAR */
+.search-container {
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.search-container .form-control {
+    border-radius: 50px 0 0 50px; /* only left side */
+    border: 2px solid #e0e0e0;
+    padding: 1.2rem 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+/* effect clicking the input */
+.search-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+}
+
+/* button to search */
+.search-container .btn-primary {
+    border-radius: 0;
+    padding: 0 1.5rem;
+    text-transform: uppercase;
+    background-color: MidnightBlue ;
+    letter-spacing: 0.5px;
+}
+
+/* button to reset  */
+.search-container .btn-outline-secondary {
+    border-radius: 0 50px 50px 0; /* only right side */
+    border: 2px solid #e0e0e0;
+    border-left: none;
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.search-container .btn-outline-secondary:hover {
+    background-color: #e2e6ea;
+    color: #343a40;
+}
