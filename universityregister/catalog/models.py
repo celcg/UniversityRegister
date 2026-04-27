@@ -37,6 +37,7 @@ class Course(models.Model):
   academic_level = models.ForeignKey('Level', on_delete=models.SET_NULL, null=True)
   department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
   topic = models.CharField(verbose_name='Course Topic', max_length=255, help_text='Enter the course topic', blank=True)
+  visit_count = models.PositiveIntegerField(default=0)
 
   def __str__(self):
     """String for representing the Model object."""

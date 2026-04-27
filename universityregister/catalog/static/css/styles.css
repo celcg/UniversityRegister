@@ -220,3 +220,69 @@ body {
     color: LightSlateGray;
     font-style: italic;
 }
+
+/* TOP 3 RANKING */
+
+.ranking-card {
+    text-align: left;
+}
+
+.top3-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* cada item */
+.top3-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.8rem;
+    background-color: GhostWhite;
+    transition: all 0.3s ease;
+}
+
+.top3-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+}
+
+/* medallas */
+.medal {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+/* info */
+.top3-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: RoyalBlue;
+}
+
+.top3-title:hover {
+    color: MidnightBlue;
+}
+
+.top3-visits {
+    margin: 0;
+    font-size: 0.9rem;
+    color: SteelBlue;
+}
+
+/* destacar TOP 1 */
+.position-1 {
+    background: linear-gradient(90deg, #fff8dc, #ffffff);
+    border-left: 5px solid gold;
+}
+
+.position-2 {
+    border-left: 5px solid silver;
+}
+
+.position-3 {
+    border-left: 5px solid #cd7f32; /* bronze */
+}

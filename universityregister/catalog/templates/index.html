@@ -80,4 +80,43 @@
     </div>
   </div>
 
+  <!-- Top 3 visited course section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="stat-card ranking-card">
+
+        <h3>Top 3 Most Visited Courses</h3>
+
+        <div class="top3-container">
+
+          {% for course in top_courses %}
+            <div class="top3-item position-{{ forloop.counter }}">
+
+              <div class="medal">
+                {% if forloop.counter == 1 %}🥇{% endif %}
+                {% if forloop.counter == 2 %}🥈{% endif %}
+                {% if forloop.counter == 3 %}🥉{% endif %}
+              </div>
+
+              <div class="top3-info">
+                <a href="{{ course.get_absolute_url }}" class="top3-title">
+                  {{ course.title }}
+                </a>
+                <p class="top3-visits">
+                  {{ course.visit_count }} visits
+                </p>
+              </div>
+
+            </div>
+          {% empty %}
+            <p>No data yet</p>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 {% endblock %} 
