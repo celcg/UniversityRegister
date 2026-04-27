@@ -185,3 +185,38 @@ body {
     background-color: #e2e6ea;
     color: #343a40;
 }
+
+/* LAST COURSE SECTION */
+
+.last-course-card {
+    text-align: left;
+    padding: 2rem 2.5rem;
+}
+
+.last-course-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.last-course-title a {
+    text-decoration: none;
+    color: RoyalBlue;
+    transition: color 0.2s ease;
+}
+
+.last-course-title a:hover {
+    color: MidnightBlue;
+}
+
+/* info secundaria */
+.last-course-extra {
+    color: SteelBlue;
+    font-size: 0.95rem;
+}
+
+/* mensaje vacío */
+.last-course-empty {
+    color: LightSlateGray;
+    font-style: italic;
+}

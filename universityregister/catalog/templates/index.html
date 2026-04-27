@@ -4,6 +4,7 @@
   <h1 class="main-title">University Register Home</h1>
   <p class="subtitle">Welcome to the University Management System!</p>
   
+  <!-- Summary section -->
   {# horizontal container that holds all our boxes #}
   <div class="row">
 
@@ -52,5 +53,31 @@
     </div>
 
   </div> {# End of the row #}
+
+  <!-- Last visited course section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="stat-card last-course-card">
+
+        <h3>Last visited course</h3>
+
+        {% if last_course %}
+          <p class="last-course-title">
+            <a href="{{ last_course.get_absolute_url }}">
+              {{ last_course.title }}
+            </a>
+          </p>
+          <p class="last-course-extra">
+            {{ last_course.course_code }} • {{ last_course.department }}
+          </p>
+        {% else %}
+          <p class="last-course-empty">
+            You haven't visited any courses yet
+          </p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
 
 {% endblock %} 
