@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.db.models import F
 
 # Create your views here.
 
@@ -18,6 +19,16 @@ def index(request):
     # Open clases (status = '  OPEN')
     num_classgroups_open = ClassGroup.objects.filter(status__exact='OPEN').count()
 
+    # For showing the last visited course
+    last_course = None
+    last_course_id = request.session.get('last_course_id')
+
+    if last_course_id:
+        last_course = Course.objects.filter(id=last_course_id).first()
+
+    # For showing the course ranking. Top 3
+    top_courses = Course.objects.order_by('-visit_count')[:3]
+
     context = {
         'num_students': num_students,
         'num_profesores': num_profesores,
@@ -25,6 +36,8 @@ def index(request):
         'num_departments': num_departments,
         'num_classgroups': num_classgroups,
         'num_classgroups_open': num_classgroups_open,
+        'last_course': last_course,
+        'top_courses': top_courses,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -50,9 +63,26 @@ class CourseListView(generic.ListView):
 class CourseDetailView(generic.DetailView):
     model = Course
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        # We store the id of this course in the session
+        self.request.session['last_course_id'] = obj.id
+
+        # We update the global counter from the DB using F()
+        obj.visit_count = F('visit_count') + 1
+        obj.save()
+        obj.refresh_from_db()
+
+        return obj
+
+
 class ProfesorListView(generic.ListView):
     model = Profesor
     paginate_by = 2
+
+    #For adding search functionality
+
     def get_queryset(self):
         # Obtenemos el queryset original
         queryset = super().get_queryset()
@@ -67,9 +97,7 @@ class ProfesorListView(generic.ListView):
         return queryset
 
 class ProfesorDetailView(generic.DetailView):
-    model = Profesor
-    #for adding search functionality
-    
+    model = Profesor    
 
 class StudentListView(generic.ListView):
     model = Student

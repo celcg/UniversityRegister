@@ -4,6 +4,7 @@
   <h1 class="main-title">University Register Home</h1>
   <p class="subtitle">Welcome to the University Management System!</p>
   
+  <!-- Summary section -->
   {# horizontal container that holds all our boxes #}
   <div class="row">
 
@@ -52,5 +53,70 @@
     </div>
 
   </div> {# End of the row #}
+
+  <!-- Last visited course section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="stat-card last-course-card">
+
+        <h3>Last visited course</h3>
+
+        {% if last_course %}
+          <p class="last-course-title">
+            <a href="{{ last_course.get_absolute_url }}">
+              {{ last_course.title }}
+            </a>
+          </p>
+          <p class="last-course-extra">
+            {{ last_course.course_code }} • {{ last_course.department }}
+          </p>
+        {% else %}
+          <p class="last-course-empty">
+            You haven't visited any courses yet
+          </p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 3 visited course section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="stat-card ranking-card">
+
+        <h3>Top 3 Most Visited Courses</h3>
+
+        <div class="top3-container">
+
+          {% for course in top_courses %}
+            <div class="top3-item position-{{ forloop.counter }}">
+
+              <div class="medal">
+                {% if forloop.counter == 1 %}🥇{% endif %}
+                {% if forloop.counter == 2 %}🥈{% endif %}
+                {% if forloop.counter == 3 %}🥉{% endif %}
+              </div>
+
+              <div class="top3-info">
+                <a href="{{ course.get_absolute_url }}" class="top3-title">
+                  {{ course.title }}
+                </a>
+                <p class="top3-visits">
+                  {{ course.visit_count }} visits
+                </p>
+              </div>
+
+            </div>
+          {% empty %}
+            <p>No data yet</p>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
 {% endblock %} 
