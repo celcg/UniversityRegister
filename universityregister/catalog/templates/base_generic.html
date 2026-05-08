@@ -42,22 +42,22 @@
           </li>
         </ul>
         <ul class="sidebar-user">
-  {% if user.is_authenticated %}
-    <li>
-      <span class="user-info">User: {{ user.get_username }}</span>
-    </li>
-    <li>
-      <form action="{% url 'logout' %}" method="post" style="margin: 0;">
-        {% csrf_token %}
-        <button type="submit" class="logout-link">Logout</button>
-      </form>
-    </li>
-  {% else %}
-    <li>
-      <a href="{% url 'login' %}?next={{request.path}}">Login</a>
-    </li>
-  {% endif %}
-</ul>
+          {% if user.is_authenticated %}
+          <li>
+            <span class="user-info">User: {{ user.get_username }}</span>
+          </li>
+          <li>
+            <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+              {% csrf_token %}
+              <button type="submit" class="logout-link">Logout</button>
+            </form>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'login' %}?next={{request.path}}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
 
         {% endblock %}
       </div>
