@@ -340,3 +340,28 @@ body {
 .position-3 {
     border-left: 5px solid #cd7f32; /* bronze */
 }
+
+
+/* 5. FORMS INSIDE STAT-CARDS*/
+/* Ensure forms inside stat-cards breathe correctly */
+.stat-card form .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+.stat-card .form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+}
+
+.stat-card .form-control:focus {
+    border-color: MidnightBlue;
+    box-shadow: none; /* Removes the ugly blue glow to keep it clean */
+}
+
+/* Fix for Textareas (Description) to prevent them from stretching the card weirdly */
+textarea.form-control {
+    resize: vertical; /* Only allows resizing up/down, not sideways */
+    min-height: 100px;
+}

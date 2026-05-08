@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.db.models import F
-
-# Create your views here.
-
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from .models import Course, Profesor
+from .forms import CourseForm, ClassGroupForm
 from .models import Student, Profesor, Course, ClassGroup, Department
 
 def index(request):
@@ -116,3 +117,80 @@ class StudentListView(generic.ListView):
 
 class StudentDetailView(generic.DetailView):
     model = Student
+
+
+@login_required
+def profesor_dashboard(request):
+    # Step 1: Authorization check
+    # We verify if the logged-in user has a 'Profesor' profile linked to their account
+    if not hasattr(request.user, 'profesor'):
+        # If not a professor, we raise a 403 Forbidden error (Confidentiality principle)
+        raise PermissionDenied 
+
+    profesor = request.user.profesor
+
+    # Step 2: Data Retrieval (Integrity)
+    # Get only the courses taught by this specific professor
+    # We use distinct() to avoid duplicate entries in the list
+    my_courses = Course.objects.filter(class_groups__profesor=profesor).distinct()
+
+    # Step 3: Handle the 'Create New Course' form
+    if request.method == 'POST':
+        # If the user submitted the form, we process the data
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            # Save the new course to the database
+            form.save()
+            # Redirect to the same page to see the updated list
+            return redirect('profesor-dashboard')
+    else:
+        # If it's a GET request, we just show an empty form
+        form = CourseForm()
+
+    context = {
+        'my_courses': my_courses,
+        'form': form,
+    }
+    return render(request, 'catalog/profesor_dashboard.html', context)
+@login_required
+def profesor_create_view(request):
+    """Página para que el profesor cree nuevos Cursos y ClassGroups"""
+    if not hasattr(request.user, 'profesor'):
+        raise PermissionDenied
+
+    profesor = request.user.profesor
+    course_form = CourseForm()
+    group_form = ClassGroupForm()
+
+    if request.method == 'POST':
+        if 'submit_course' in request.POST:
+            course_form = CourseForm(request.POST)
+            if course_form.is_valid():
+                course_form.save()
+                return redirect('profesor-create')
+        
+        elif 'submit_group' in request.POST:
+            group_form = ClassGroupForm(request.POST)
+            if group_form.is_valid():
+                new_group = group_form.save(commit=False)
+                new_group.profesor = profesor
+                new_group.save()
+                return redirect('profesor-classes') # Redirigir a la vista de lista
+
+    return render(request, 'catalog/profesor_create.html', {
+        'course_form': course_form,
+        'group_form': group_form,
+    })
+
+@login_required
+def profesor_classes_view(request):
+    """Página para que el profesor vea sus ClassGroups actuales"""
+    if not hasattr(request.user, 'profesor'):
+        raise PermissionDenied
+
+    # Obtenemos los grupos de clase asignados a este profesor
+    my_groups = ClassGroup.objects.filter(profesor=request.user.profesor).order_by('-start_date')
+
+    return render(request, 'catalog/profesor_classes.html', {
+        'my_groups': my_groups,
+    })

@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1 class="main-title">Creation Center</h1>
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="stat-card" style="border-top: 5px solid MidnightBlue;">
+            <h3>New Course</h3>
+            <form method="post">{% csrf_token %}{{ course_form.as_p }}
+                <button type="submit" name="submit_course" class="btn btn-primary w-100">Save Course</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="stat-card" style="border-top: 5px solid SteelBlue;">
+            <h3>New Class Group</h3>
+            <form method="post">{% csrf_token %}{{ group_form.as_p }}
+                <button type="submit" name="submit_group" class="btn btn-info w-100 text-white">Open Group</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
