@@ -1,0 +1,68 @@
+/* Login / registration sign-in page */
+
+.login-card {
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.login-card label {
+    font-weight: 600;
+    color: LightSlateGray;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06rem;
+    margin-bottom: 0.35rem;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+    display: block;
+    width: 100%;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: border-color 0.3s ease;
+}
+
+.login-card input[type="text"]:focus,
+.login-card input[type="password"]:focus {
+    border-color: MidnightBlue;
+    outline: none;
+    box-shadow: none;
+}
+
+.login-card .btn-login {
+    background-color: MidnightBlue;
+    border-color: MidnightBlue;
+    color: White;
+    font-weight: 600;
+    padding: 0.55rem 1.75rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.login-card .btn-login:hover {
+    background-color: rgb(35, 35, 95);
+    border-color: rgb(35, 35, 95);
+    color: White;
+}
+
+.login-forgot {
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+.login-forgot a {
+    color: RoyalBlue;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.login-forgot a:hover {
+    color: MidnightBlue;
+    text-decoration: underline;
+}
