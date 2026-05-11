@@ -123,63 +123,39 @@ class StudentDetailView(generic.DetailView):
 
 
 @login_required
-def profesor_dashboard(request):
-    # Step 1: Authorization check
-    # We verify if the logged-in user has a 'Profesor' profile linked to their account
-    if not hasattr(request.user, 'profesor'):
-        # If not a professor, we raise a 403 Forbidden error (Confidentiality principle)
-        raise PermissionDenied 
-
-    profesor = request.user.profesor
-
-    # Step 2: Data Retrieval (Integrity)
-    # Get only the courses taught by this specific professor
-    # We use distinct() to avoid duplicate entries in the list
-    my_courses = Course.objects.filter(class_groups__profesor=profesor).distinct()
-
-    # Step 3: Handle the 'Create New Course' form
-    if request.method == 'POST':
-        # If the user submitted the form, we process the data
-        form = CourseForm(request.POST)
-        if form.is_valid():
-            # Save the new course to the database
-            form.save()
-            # Redirect to the same page to see the updated list
-            return redirect('profesor-dashboard')
-    else:
-        # If it's a GET request, we just show an empty form
-        form = CourseForm()
-
-    context = {
-        'my_courses': my_courses,
-        'form': form,
-    }
-    return render(request, 'catalog/profesor_dashboard.html', context)
-
-@login_required
 def profesor_create_view(request):
-    """Página para que el profesor cree nuevos Cursos y ClassGroups"""
+    """
+    View for Professors to create new Courses and ClassGroups.
+    Implements Role-Based Access Control (RBAC).
+    """
+    # Authorization Check: Ensure the user has a Professor profile
     if not hasattr(request.user, 'profesor'):
+        # Confidentiality: Students should not know the internal creation logic
         raise PermissionDenied
 
     profesor = request.user.profesor
+    # Initialize blank forms for GET requests
     course_form = CourseForm()
     group_form = ClassGroupForm()
 
     if request.method == 'POST':
+        # Logic to distinguish which form was submitted (submit_course vs submit_group)
         if 'submit_course' in request.POST:
             course_form = CourseForm(request.POST)
             if course_form.is_valid():
+                # Data Integrity: Django validates inputs before saving to DB
                 course_form.save()
                 return redirect('profesor-create')
         
         elif 'submit_group' in request.POST:
             group_form = ClassGroupForm(request.POST)
             if group_form.is_valid():
+                # Save with commit=False to modify the object before writing to DB
                 new_group = group_form.save(commit=False)
+                # Authenticity: Automatically link the group to the logged-in professor
                 new_group.profesor = profesor
                 new_group.save()
-                return redirect('profesor-classes') # Redirigir a la vista de lista
+                return redirect('profesor-classes')
 
     return render(request, 'catalog/profesor_create.html', {
         'course_form': course_form,
@@ -188,11 +164,14 @@ def profesor_create_view(request):
 
 @login_required
 def profesor_classes_view(request):
-    """Página para que el profesor vea sus ClassGroups actuales"""
+    """
+    View for Professors to see the ClassGroups they are teaching.
+    """
     if not hasattr(request.user, 'profesor'):
         raise PermissionDenied
 
-    # Obtenemos los grupos de clase asignados a este profesor
+    #  Filter groups where the 'profesor' field matches the current user
+    # Order by date descending to show the newest classes first
     my_groups = ClassGroup.objects.filter(profesor=request.user.profesor).order_by('-start_date')
 
     return render(request, 'catalog/profesor_classes.html', {
