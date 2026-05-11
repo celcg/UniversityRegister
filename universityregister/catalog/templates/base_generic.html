@@ -57,9 +57,15 @@
             <a href="{% url 'login' %}?next={{request.path}}">Login</a>
           </li>
           {% endif %}
+
           {% if user.is_authenticated and user.profesor %}
           <li><a href="{% url 'profesor-create' %}">Create Course/Group</a></li>
           <li><a href="{% url 'profesor-classes' %}">My Class Groups</a></li>
+          {% endif %}
+          
+          {% if user.is_authenticated and user.student %}
+          <li><a href="{% url 'student-enroll' %}">Enroll Group</a></li>
+          <li><a href="{% url 'student-classes' %}">My Class Groups</a></li>
           {% endif %}
         </ul>
 

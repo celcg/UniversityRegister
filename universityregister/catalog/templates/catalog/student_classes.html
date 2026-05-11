@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1 class="main-title">My Classes</h1>
+
+<p class="subtitle">
+    Your current enrolled Class Groups.
+</p>
+
+<div class="row">
+
+{% for group in my_groups %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="stat-card">
+
+        <h4 style="color: MidnightBlue;">
+            {{ group.course.title }}
+        </h4>
+
+        <p>
+            <strong>Group ID:</strong>
+            {{ group.class_id }}
+        </p>
+
+        <p>
+            <strong>Schedule:</strong>
+            {{ group.schedule }}
+        </p>
+
+        <p>
+            <strong>Professor:</strong>
+            {{ group.profesor }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ group.get_status_display }}
+        </p>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+    <p>You are not enrolled in any classes.</p>
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

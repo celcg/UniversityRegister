@@ -1,0 +1,153 @@
+/* MAIN CONTAINER */
+
+.enroll-container {
+    margin-top: 2rem;
+}
+
+/* COURSE BLOCK */
+
+.course-enroll-card {
+    background-color: White;
+
+    padding: 2rem;
+
+    border-radius: 1rem;
+
+    margin-bottom: 2rem;
+
+    border: 0.06rem solid LightGrey;
+
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.04);
+}
+
+/* COURSE HEADER */
+
+.course-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 2rem;
+}
+
+.course-title {
+    color: MidnightBlue;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+
+    margin-bottom: 0.5rem;
+}
+
+.course-description {
+    color: SlateGray;
+
+    margin-bottom: 0;
+}
+
+/* GROUP COUNTER */
+
+.group-counter {
+    background-color: AliceBlue;
+
+    color: RoyalBlue;
+
+    padding: 0.4rem 0.9rem;
+
+    border-radius: 0.5rem;
+
+    font-weight: 600;
+
+    font-size: 0.9rem;
+}
+
+/* GROUPS HORIZONTAL LAYOUT */
+
+.groups-row {
+    display: flex;
+
+    gap: 1.5rem;
+
+    overflow-x: auto;
+
+    padding-bottom: 0.5rem;
+}
+
+/* GROUP CARD */
+
+.group-card {
+    min-width: 18rem;
+
+    background-color: GhostWhite;
+
+    border-radius: 0.8rem;
+
+    padding: 1.5rem;
+
+    border-top: 0.25rem solid RoyalBlue;
+
+    transition: all 0.25s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-0.3rem);
+
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.08);
+}
+
+/* TITLES */
+
+.group-title {
+    color: MidnightBlue;
+
+    font-weight: 700;
+
+    margin-bottom: 1rem;
+}
+
+/* FOOTER */
+
+.group-footer {
+    margin-top: 1.5rem;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+/* STUDENT COUNT */
+
+.students-count {
+    background-color: White;
+
+    padding: 0.35rem 0.7rem;
+
+    border-radius: 0.4rem;
+
+    font-size: 0.9rem;
+
+    color: SlateGray;
+
+    font-weight: 600;
+}
+
+/* ENROLL BUTTON */
+
+.btn-enroll {
+    background-color: MidnightBlue;
+
+    color: White;
+
+    border: none;
+}
+
+.btn-enroll:hover {
+    background-color: RoyalBlue;
+
+    color: White;
+}

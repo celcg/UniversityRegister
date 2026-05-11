@@ -15,4 +15,8 @@ urlpatterns = [
 
     path('management/create/', views.profesor_create_view, name='profesor-create'),
     path('management/my-classes/', views.profesor_classes_view, name='profesor-classes'),
+
+    path('management/enroll/<int:pk>/', views.enroll_class_view, name='enroll-class'),
+    path('management/enroll/', views.student_enroll_view, name='student-enroll'),
+    path('management/student-my-classes/', views.student_classes_view, name='student-classes'),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
@@ -81,6 +81,7 @@ class CourseDetailView(generic.DetailView):
 class ProfesorListView(generic.ListView):
     model = Profesor
     paginate_by = 2
+    ordering = ['name']
 
     #For adding search functionality
 
@@ -103,6 +104,8 @@ class ProfesorDetailView(generic.DetailView):
 class StudentListView(generic.ListView):
     model = Student
     paginate_by = 3
+    ordering = ['first_name', 'last_name']
+
     def get_queryset(self):
         queryset = super().get_queryset()
         query = self.request.GET.get('search')
@@ -152,6 +155,7 @@ def profesor_dashboard(request):
         'form': form,
     }
     return render(request, 'catalog/profesor_dashboard.html', context)
+
 @login_required
 def profesor_create_view(request):
     """Página para que el profesor cree nuevos Cursos y ClassGroups"""
@@ -192,5 +196,55 @@ def profesor_classes_view(request):
     my_groups = ClassGroup.objects.filter(profesor=request.user.profesor).order_by('-start_date')
 
     return render(request, 'catalog/profesor_classes.html', {
+        'my_groups': my_groups,
+    })
+
+@login_required
+def enroll_class_view(request, pk):
+
+    if not hasattr(request.user, 'student'):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+
+        student = request.user.student
+
+        group = get_object_or_404(ClassGroup, pk=pk)
+
+        if student not in group.enrolled_students.all():
+
+            if group.enrolled_students.count() < group.maxStudents:
+
+                group.enrolled_students.add(student)
+
+                if group.enrolled_students.count() == group.maxStudents:
+                    group.status = 'FULL'
+                    group.save()
+
+    return redirect('student-enroll')
+
+@login_required
+def student_enroll_view(request):
+    """Page for students to enroll ClassGroups"""
+    if not hasattr(request.user, 'student'):
+        raise PermissionDenied
+
+    #We get all the Courses with ALL their classGroups
+    courses = Course.objects.prefetch_related('class_groups')
+
+    return render(request, 'catalog/student_enroll.html', {
+        'courses': courses,
+    })
+
+@login_required
+def student_classes_view(request):
+    """Page for students to see their ClassGroups"""
+    if not hasattr(request.user, 'student'):
+        raise PermissionDenied
+
+    # We get the ClassGroup of this Student
+    my_groups = ClassGroup.objects.filter(enrolled_students=request.user.student).order_by('-start_date')
+
+    return render(request, 'catalog/student_classes.html', {
         'my_groups': my_groups,
     })
