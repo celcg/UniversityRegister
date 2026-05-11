@@ -86,14 +86,14 @@ class ProfesorListView(generic.ListView):
     #For adding search functionality
 
     def get_queryset(self):
-        # Obtenemos el queryset original
+        # getting queryset original
         queryset = super().get_queryset()
         
-        # Buscamos si hay un parámetro 'search' en la URL
+        # search query from GET parameters
         query = self.request.GET.get('search')
         
         if query:
-            # Filtramos por el campo 'name' (ajusta si el campo se llama distinto)
+            # filters profesores by name containing the search query. __icontains makes the search case-insensitive.
             queryset = queryset.filter(name__icontains=query)
             
         return queryset
@@ -126,11 +126,10 @@ class StudentDetailView(generic.DetailView):
 def profesor_create_view(request):
     """
     View for Professors to create new Courses and ClassGroups.
-    Implements Role-Based Access Control (RBAC).
     """
-    # Authorization Check: Ensure the user has a Professor profile
+    #  Ensure the user has a Professor profile
     if not hasattr(request.user, 'profesor'):
-        # Confidentiality: Students should not know the internal creation logic
+        # Students should not know the internal creation logic
         raise PermissionDenied
 
     profesor = request.user.profesor
@@ -143,7 +142,7 @@ def profesor_create_view(request):
         if 'submit_course' in request.POST:
             course_form = CourseForm(request.POST)
             if course_form.is_valid():
-                # Data Integrity: Django validates inputs before saving to DB
+                # Django validates inputs before saving to DB
                 course_form.save()
                 return redirect('profesor-create')
         
@@ -152,7 +151,7 @@ def profesor_create_view(request):
             if group_form.is_valid():
                 # Save with commit=False to modify the object before writing to DB
                 new_group = group_form.save(commit=False)
-                # Authenticity: Automatically link the group to the logged-in professor
+                # Automatically link the group to the logged-in professor
                 new_group.profesor = profesor
                 new_group.save()
                 return redirect('profesor-classes')
