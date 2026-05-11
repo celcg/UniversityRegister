@@ -1,0 +1,113 @@
+/* ENROLLED CLASS CARD */
+
+.enrolled-class-card {
+    background-color: White;
+
+    padding: 1.75rem;
+
+    border-radius: 1rem;
+
+    border: 0.06rem solid LightGrey;
+
+    box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.05);
+
+    transition: all 0.25s ease;
+
+    height: 100%;
+}
+
+.enrolled-class-card:hover {
+    transform: translateY(-0.35rem);
+
+    border-color: RoyalBlue;
+
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.08);
+}
+
+/* COURSE TITLE */
+
+.enrolled-course-title {
+    margin-bottom: 1.25rem;
+}
+
+.course-title-link {
+    color: MidnightBlue;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 1.35rem;
+
+    transition: color 0.2s ease;
+}
+
+.course-title-link:hover {
+    color: RoyalBlue;
+}
+
+/* CLASS INFO */
+
+.class-info {
+    margin-bottom: 0.8rem;
+
+    color: DarkSlateGray;
+
+    line-height: 1.4;
+}
+
+.class-info strong {
+    color: MidnightBlue;
+}
+
+/* FOOTER */
+
+.class-footer {
+    margin-top: 1.5rem;
+}
+
+/* STATUS BADGES */
+
+.status-badge {
+    display: inline-block;
+
+    padding: 0.4rem 0.8rem;
+
+    border-radius: 0.5rem;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+.status-badge.open {
+    background-color: Honeydew;
+
+    color: Green;
+}
+
+.status-badge.full {
+    background-color: MistyRose;
+
+    color: Red;
+}
+
+.status-badge.closed {
+    background-color: OldLace;
+
+    color: Orange;
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+    background-color: White;
+
+    padding: 2rem;
+
+    border-radius: 1rem;
+
+    text-align: center;
+
+    color: SlateGray;
+}

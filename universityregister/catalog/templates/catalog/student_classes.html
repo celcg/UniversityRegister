@@ -1,4 +1,9 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student_classes.css' %}">
+{% endblock %}
 
 {% block content %}
 
@@ -12,33 +17,53 @@
 
 {% for group in my_groups %}
 
-<div class="col-md-4 mb-4">
+<div class="col-md-6 col-lg-4 mb-4">
 
-    <div class="stat-card">
+    <div class="enrolled-class-card">
 
-        <h4 style="color: MidnightBlue;">
-            {{ group.course.title }}
+        <h4 class="enrolled-course-title">
+
+            <a href="{{ group.course.get_absolute_url }}"
+               class="course-title-link">
+
+                {{ group.course.title }}
+
+            </a>
+
         </h4>
 
-        <p>
+        <div class="class-info">
             <strong>Group ID:</strong>
             {{ group.class_id }}
-        </p>
+        </div>
 
-        <p>
+        <div class="class-info">
             <strong>Schedule:</strong>
             {{ group.schedule }}
-        </p>
+        </div>
 
-        <p>
+        <div class="class-info">
             <strong>Professor:</strong>
             {{ group.profesor }}
-        </p>
+        </div>
 
-        <p>
-            <strong>Status:</strong>
-            {{ group.get_status_display }}
-        </p>
+        <div class="class-footer">
+
+            <span class="status-badge
+                {% if group.status == 'OPEN' %}
+                    open
+                {% elif group.status == 'FULL' %}
+                    full
+                {% else %}
+                    closed
+                {% endif %}
+            ">
+
+                {{ group.get_status_display }}
+
+            </span>
+
+        </div>
 
     </div>
 
@@ -47,7 +72,13 @@
 {% empty %}
 
 <div class="col-12">
-    <p>You are not enrolled in any classes.</p>
+
+    <div class="empty-state">
+
+        <p>You are not enrolled in any classes.</p>
+
+    </div>
+
 </div>
 
 {% endfor %}

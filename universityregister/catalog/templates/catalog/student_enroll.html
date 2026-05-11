@@ -22,8 +22,13 @@
     <div class="course-header">
 
         <div>
-            <h2 class="course-title">
-                {{ course.title }}
+            <h2>
+                <a href="{{ course.get_absolute_url }}"
+                class="course-title">
+
+                    {{ course.title }}
+
+                </a>
             </h2>
 
             <p class="course-description">
