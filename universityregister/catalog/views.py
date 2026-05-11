@@ -193,11 +193,13 @@ def enroll_class_view(request, pk):
 
             if group.enrolled_students.count() < group.maxStudents:
 
-                group.enrolled_students.add(student)
+                # Prevent enrollment in another group of same course
+                already_enrolled = student.classes.filter(course=group.course).exists()
 
-                if group.enrolled_students.count() == group.maxStudents:
-                    group.status = 'FULL'
-                    group.save()
+                if already_enrolled:
+                    return redirect('student-enroll')
+                
+                group.enrolled_students.add(student)
 
     return redirect('student-enroll')
 

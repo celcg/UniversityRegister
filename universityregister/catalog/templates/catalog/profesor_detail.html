@@ -26,9 +26,9 @@
               <p>
                 <strong>Status:</strong>
                 {# Regresamos al sistema manual de IF/ELSE que prefieres #}
-                {% if group.status == 'OPEN' %}
+                {% if group.computed_status == 'OPEN' %}
                   <span class="status-open">Open</span>
-                {% elif group.status == 'FULL' %}
+                {% elif group.computed_status == 'FULL' %}
                   <span class="status-full">Full</span>
                 {% else %}
                   <span class="status-closed">Closed</span>

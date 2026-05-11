@@ -68,7 +68,7 @@
                     {{ group.enrolled_students.count }}/{{ group.maxStudents }}
                 </span>
 
-                {% if group.status == 'OPEN' %}
+                {% if group.computed_status == 'OPEN' %}
 
                     {% if request.user.student not in group.enrolled_students.all %}
 
@@ -94,7 +94,7 @@
 
                     {% endif %}
 
-                {% elif group.status == 'FULL' %}
+                {% elif group.computed_status == 'FULL' %}
 
                     <button class="btn btn-warning" disabled>
                         Full

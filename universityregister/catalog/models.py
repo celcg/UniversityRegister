@@ -69,7 +69,6 @@ class ClassGroup(models.Model):
   ENROLLMENT_STATUS_CHOICES = [
       ('OPEN', 'Open'),
       ('CLOSED', 'Closed'),
-      ('FULL', 'Full'),
   ]
 
   class_id = models.CharField(verbose_name='Class Group ID', max_length=50, unique=True, help_text='Enter the class group ID')
@@ -86,3 +85,14 @@ class ClassGroup(models.Model):
 
   def __str__(self):
       return f"Class {self.class_id} for {self.course.title}"
+  
+  @property
+  def computed_status(self):
+      """
+      Returns FULL automatically if the class reached its capacity.
+      Otherwise returns the manual one.
+      """
+      if self.enrolled_students.count() >= self.maxStudents:
+          return 'FULL'
+
+      return self.status
