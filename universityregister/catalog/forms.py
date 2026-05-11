@@ -30,3 +30,21 @@ class ClassGroupForm(forms.ModelForm):
             'class_id': forms.TextInput(attrs={'class': 'form-control'}),
             'maxStudents': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        """
+        Custom initialization to restrict status choices.
+        This ensures Data Integrity by preventing manual 'FULL' assignment.
+        """
+        super().__init__(*args, **kwargs)
+        
+        # Step 1: Check if the 'status' field is present in the form
+        if 'status' in self.fields:
+            # Step 2: Get all current choices from the Model
+            all_choices = self.fields['status'].choices
+            
+            # Step 3: Create a new list excluding the 'FULL' option
+            # 'key' is the database value ('FULL'), 'value' is the human-readable text ('Full')
+            self.fields['status'].choices = [
+                (key, value) for key, value in all_choices if key != 'FULL'
+            ]

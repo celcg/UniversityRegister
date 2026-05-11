@@ -366,3 +366,10 @@ textarea.form-control {
     min-height: 100px;
 }
 
+.form-control, 
+select.form-control {
+    height: auto !important;     /* Allows the box to grow with the text */
+    padding: 0.6rem 1rem;       /* Vertical and horizontal padding */
+    line-height: 1.5;           /* Standard spacing to prevent cutting off descenders */
+    vertical-align: middle;
+}
