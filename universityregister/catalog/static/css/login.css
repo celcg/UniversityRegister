@@ -17,6 +17,7 @@
 }
 
 .login-card input[type="text"],
+.login-card input[type="email"],
 .login-card input[type="password"] {
     display: block;
     width: 100%;
@@ -27,10 +28,37 @@
 }
 
 .login-card input[type="text"]:focus,
+.login-card input[type="email"]:focus,
 .login-card input[type="password"]:focus {
     border-color: MidnightBlue;
     outline: none;
     box-shadow: none;
+}
+
+.login-card ul.errorlist {
+    list-style: none;
+    padding: 0.65rem 1rem;
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    text-align: left;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+}
+
+.login-card ul.errorlist li {
+    margin: 0;
+}
+
+.login-card .password-requirements {
+    text-align: left;
+    line-height: 1.45;
+}
+
+.login-card .password-requirements ul {
+    margin: 0.35rem 0 0 1rem;
+    padding: 0;
 }
 
 .login-card .btn-login {
@@ -65,4 +93,16 @@
 .login-forgot a:hover {
     color: MidnightBlue;
     text-decoration: underline;
+}
+
+.login-card .auth-body {
+    text-align: left;
+    color: SteelBlue;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.login-card .auth-body + .auth-body {
+    margin-top: 1rem;
 }
