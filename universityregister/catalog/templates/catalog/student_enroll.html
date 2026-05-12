@@ -13,6 +13,21 @@
     Browse available groups and enroll in your preferred schedule.
 </p>
 
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div class="alert alert-{{ message.tags }}">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
 <div class="enroll-container">
 
 {% for course in courses %}

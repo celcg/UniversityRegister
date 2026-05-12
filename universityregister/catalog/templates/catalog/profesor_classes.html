@@ -19,7 +19,17 @@
 
             <p><strong>Enrolled Students:</strong></p>
 
-z
+            <ul>
+                {% for student in group.enrolled_students.all %}
+                    <li>
+                        {{ student.first_name }}
+                        {{ student.last_name }}
+                        ({{ student.student_id }})
+                    </li>
+                {% empty %}
+                    <li>No students enrolled.</li>
+                {% endfor %}
+            </ul>
 
             <span class="badge {% if group.status == 'a' %}badge-success{% else %}badge-warning{% endif %}">
                 {{ group.get_status_display }}

@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from .models import Course, Profesor
 from .forms import CourseForm, ClassGroupForm
@@ -197,9 +198,18 @@ def enroll_class_view(request, pk):
                 already_enrolled = student.classes.filter(course=group.course).exists()
 
                 if already_enrolled:
+                    messages.warning(
+                        request,
+                        f'You are already enrolled in another group of {group.course.title}.'
+                    )
                     return redirect('student-enroll')
                 
                 group.enrolled_students.add(student)
+
+                messages.success(
+                    request,
+                    f'Successfully enrolled in {group.course.title}.'
+                )
 
     return redirect('student-enroll')
 
