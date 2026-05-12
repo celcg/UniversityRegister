@@ -13,19 +13,12 @@
     Browse available groups and enroll in your preferred schedule.
 </p>
 
-
 {% if messages %}
-
     {% for message in messages %}
-
         <div class="alert alert-{{ message.tags }}">
-
             {{ message }}
-
         </div>
-
     {% endfor %}
-
 {% endif %}
 
 <div class="enroll-container">
@@ -33,9 +26,7 @@
 {% for course in courses %}
 
 <div class="course-enroll-card">
-
     <div class="course-header">
-
         <div>
             <h2>
                 <a href="{{ course.get_absolute_url }}"
@@ -54,77 +45,80 @@
         <span class="group-counter">
             {{ course.class_groups.count }} Groups
         </span>
-
     </div>
 
     <div class="groups-row">
-
         {% for group in course.class_groups.all %}
-
         <div class="group-card">
 
             <h5 class="group-title">
                 Group {{ group.class_id }}
             </h5>
 
-            <p>
-                <strong>Schedule:</strong><br>
+            <p><strong>Schedule:</strong><br>
                 {{ group.schedule }}
             </p>
 
-            <p>
-                <strong>Professor:</strong><br>
+            <p><strong>Professor:</strong><br>
                 {{ group.profesor }}
             </p>
 
             <div class="group-footer">
-
                 <span class="students-count">
                     {{ group.enrolled_students.count }}/{{ group.maxStudents }}
                 </span>
 
-                {% if group.computed_status == 'OPEN' %}
+                <!--If the student is enrolled-->
+                {% if request.user.student in group.enrolled_students.all %}
+                     <!--If the status is not closed they can unenroll-->
+                    {% if group.computed_status != 'CLOSED' %}
 
-                    {% if request.user.student not in group.enrolled_students.all %}
+                        <form method="post" action="{% url 'unenroll-class' group.id %}">
+                            {% csrf_token %}
 
-                    <form method="post"
-                          action="{% url 'enroll-class' group.id %}">
-
-                        {% csrf_token %}
-
-                        <button type="submit"
-                                class="btn btn-enroll">
-
-                            Enroll
-
-                        </button>
-
-                    </form>
+                            <button type="submit" class="btn btn-outline-secondary">
+                                Unenroll
+                            </button>
+                        </form>
 
                     {% else %}
 
-                    <button class="btn btn-secondary" disabled>
-                        Enrolled
-                    </button>
+                        <button class="btn btn-danger" disabled>
+                            Closed
+                        </button>
 
                     {% endif %}
 
-                {% elif group.computed_status == 'FULL' %}
-
-                    <button class="btn btn-warning" disabled>
-                        Full
-                    </button>
-
+                <!--If the student is not enrolled-->
                 {% else %}
+                    <!--Only if the status is open they can enroll-->
+                    {% if group.computed_status == 'OPEN' %}
 
-                    <button class="btn btn-danger" disabled>
-                        Closed
-                    </button>
+                        <form method="post" action="{% url 'enroll-class' group.id %}">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn btn-enroll">
+                                Enroll
+                            </button>
+
+                        </form>
+
+                    {% elif group.computed_status == 'FULL' %}
+                        <button class="btn btn-warning" disabled>
+                            Full
+                        </button>
+
+                    {% else %}
+                        <button class="btn btn-danger" disabled>
+                            Closed
+                        </button>
+
+                    {% endif %}
 
                 {% endif %}
 
             </div>
-
+            
         </div>
 
         {% empty %}
@@ -132,7 +126,6 @@
         <p>No groups available.</p>
 
         {% endfor %}
-
     </div>
 
 </div>

@@ -238,3 +238,27 @@ def student_classes_view(request):
     return render(request, 'catalog/student_classes.html', {
         'my_groups': my_groups,
     })
+
+@login_required
+def unenroll_class_view(request, pk):
+
+    if not hasattr(request.user, 'student'):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+
+        student = request.user.student
+
+        group = get_object_or_404(ClassGroup, pk=pk)
+
+        # Remove student if enrolled
+        if student in group.enrolled_students.all():
+
+            group.enrolled_students.remove(student)
+
+            messages.success(
+                request,
+                f'You have unenrolled from {group.course.title}.'
+            )
+
+    return redirect('student-enroll')

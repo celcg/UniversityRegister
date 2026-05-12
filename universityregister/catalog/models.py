@@ -92,7 +92,11 @@ class ClassGroup(models.Model):
       Returns FULL automatically if the class reached its capacity.
       Otherwise returns the manual one.
       """
-      if self.enrolled_students.count() >= self.maxStudents:
-          return 'FULL'
+      if self.status == 'OPEN':
+        
+        if self.enrolled_students.count() >= self.maxStudents:
+            return 'FULL'
+        
+        return 'OPEN'
 
       return self.status
