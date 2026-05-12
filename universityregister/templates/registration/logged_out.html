@@ -1,17 +1,25 @@
 {% extends "base_generic.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block title %}<title>Signed out — University Register</title>{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h2>Logged Out</h2>
-    <p>You have successfully logged out of the system. Thank you for using the platform!</p>
-    
-    <div style="margin-top: 20px;">
-      <p>
-        <a href="{% url 'login' %}">Click here to log in again</a>
-      </p>
-      <p>
-        <a href="{% url 'index' %}">Return to Home Page</a>
-      </p>
-    </div>
+  <h1 class="main-title">Signed out</h1>
+  <p class="subtitle">You have signed out successfully. Thank you for using University Register.</p>
+
+  <div class="stat-card login-card">
+    <p class="auth-body">
+      When you are ready, sign in again to manage your account, or return to the catalog to browse courses and people.
+    </p>
+    <p class="login-forgot">
+      <a href="{% url 'login' %}">Sign in</a>
+    </p>
+    <p class="login-forgot">
+      <a href="{% url 'index' %}">Return to home page</a>
+    </p>
   </div>
 {% endblock %}
