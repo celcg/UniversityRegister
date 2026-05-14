@@ -19,4 +19,5 @@ urlpatterns = [
     path('management/enroll/<int:pk>/', views.enroll_class_view, name='enroll-class'),
     path('management/enroll/', views.student_enroll_view, name='student-enroll'),
     path('management/student-my-classes/', views.student_classes_view, name='student-classes'),
+    path('management/unenroll-class/<int:pk>/',views.unenroll_class_view,name='unenroll-class'),
 ]

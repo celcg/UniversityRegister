@@ -7,10 +7,30 @@
     {% for group in my_groups %}
     <div class="col-md-4 mb-4">
         <div class="stat-card" style="text-align: left;">
-            <h4 style="color: MidnightBlue;">{{ group.course.title }}</h4>
+            <h4 style="color: MidnightBlue;">
+                <a href="{{ group.course.get_absolute_url }}"
+               class="course-title-link">
+                    {{ group.course.title }}
+                </a>
+            </h4>
             <p><strong>Group ID:</strong> {{ group.class_id }}</p>
             <p><strong>Schedule:</strong> {{ group.schedule }}</p>
             <p><strong>Students:</strong> {{ group.maxStudents }} (Max)</p>
+
+            <p><strong>Enrolled Students:</strong></p>
+
+            <ul>
+                {% for student in group.enrolled_students.all %}
+                    <li>
+                        {{ student.first_name }}
+                        {{ student.last_name }}
+                        ({{ student.student_id }})
+                    </li>
+                {% empty %}
+                    <li>No students enrolled.</li>
+                {% endfor %}
+            </ul>
+
             <span class="badge {% if group.status == 'a' %}badge-success{% else %}badge-warning{% endif %}">
                 {{ group.get_status_display }}
             </span>

@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from django import forms
 
 # Register your models here.
 from .models import Profesor, Level, Department, Course, Student, ClassGroup
@@ -90,11 +92,53 @@ class ProfesorAdmin(admin.ModelAdmin):
     get_total_classes.short_description = 'Number of Classes'
 
 #CLASS GROUP
+class ClassGroupAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = ClassGroup
+        fields = '__all__'
+
+    def clean(self):
+
+        cleaned_data = super().clean()
+
+        students = cleaned_data.get('enrolled_students')
+        max_students = cleaned_data.get('maxStudents')
+
+        if students and max_students:
+
+            #First we check if the number of students enrolled is more than the maximum
+            if students.count() > max_students:
+
+                raise ValidationError(
+                    f"You cannot enroll more than {max_students} students."
+                )
+            
+            #Now we make sure that you can not enroll a student in two diferent groups of the same course
+            course = cleaned_data.get('course')
+            for student in students:
+
+                existing_groups = student.classes.filter(course=course)
+
+                # Exclude current group when editing
+                if self.instance.pk:
+                    existing_groups = existing_groups.exclude(pk=self.instance.pk)
+
+                if existing_groups.exists():
+
+                    raise ValidationError(
+                        f"{student} is already enrolled in another group of this course."
+                    )
+
+        return cleaned_data
+    
 @admin.register(ClassGroup)
 class ClassGroupAdmin(admin.ModelAdmin):
-    list_display = ('class_id', 'course', 'status', 'start_date', 'profesor', 'maxStudents')
+    list_display = ('class_id', 'course', 'get_computed_status', 'start_date', 'profesor', 'maxStudents')
     list_filter = ('status', 'start_date', 'profesor')
     search_fields = ('class_id','course__title')
+
+    form = ClassGroupAdminForm
     
     # Dual-pane selection for students
     filter_horizontal = ('enrolled_students',) 
@@ -114,6 +158,11 @@ class ClassGroupAdmin(admin.ModelAdmin):
             'fields': ('enrolled_students',), # WHERE to display the field of filter_horizontal
         }),
     )
+
+    def get_computed_status(self, obj):
+        return obj.computed_status
+
+    get_computed_status.short_description = 'Status'
 
 
 

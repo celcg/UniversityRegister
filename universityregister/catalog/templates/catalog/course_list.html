@@ -36,8 +36,8 @@
             {% with open_groups=course.class_groups.all %}
               {% if open_groups %}
                 {% for group in open_groups %}
-                  <span class="status-badge {{ group.status|lower }}">
-                    {{ group.class_id }} ({{ group.status|title }})
+                  <span class="status-badge {{ group.computed_status|lower }}">
+                    {{ group.class_id }} ({{ group.computed_status|title }})
                   </span>
                 {% endfor %}
               {% else %}

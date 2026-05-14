@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from .models import Course, Profesor
 from .forms import CourseForm, ClassGroupForm
@@ -193,11 +194,22 @@ def enroll_class_view(request, pk):
 
             if group.enrolled_students.count() < group.maxStudents:
 
+                # Prevent enrollment in another group of same course
+                already_enrolled = student.classes.filter(course=group.course).exists()
+
+                if already_enrolled:
+                    messages.warning(
+                        request,
+                        f'You are already enrolled in another group of {group.course.title}.'
+                    )
+                    return redirect('student-enroll')
+                
                 group.enrolled_students.add(student)
 
-                if group.enrolled_students.count() == group.maxStudents:
-                    group.status = 'FULL'
-                    group.save()
+                messages.success(
+                    request,
+                    f'Successfully enrolled in {group.course.title}.'
+                )
 
     return redirect('student-enroll')
 
@@ -226,3 +238,27 @@ def student_classes_view(request):
     return render(request, 'catalog/student_classes.html', {
         'my_groups': my_groups,
     })
+
+@login_required
+def unenroll_class_view(request, pk):
+
+    if not hasattr(request.user, 'student'):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+
+        student = request.user.student
+
+        group = get_object_or_404(ClassGroup, pk=pk)
+
+        # Remove student if enrolled
+        if student in group.enrolled_students.all():
+
+            group.enrolled_students.remove(student)
+
+            messages.success(
+                request,
+                f'You have unenrolled from {group.course.title}.'
+            )
+
+    return redirect('student-enroll')

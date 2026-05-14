@@ -46,9 +46,9 @@
             <p>
               <strong>Status:</strong>
               {# Traditional IF/ELSE logic reverted here #}
-              {% if group.status == 'OPEN' %}
-                <span class="status-text status-open">Open</span>
-              {% elif group.status == 'FULL' %}
+              {% if group.computed_status == 'OPEN' %}
+                <span class="z-text status-open">Open</span>
+              {% elif group.computed_status == 'FULL' %}
                 <span class="status-text status-full">Full</span>
               {% else %}
                 <span class="status-text status-closed">Closed</span>
