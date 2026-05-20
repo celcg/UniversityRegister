@@ -12,6 +12,11 @@
   <p class="subtitle">Use your credentials to access the University Register.</p>
   
   <div class="stat-card login-card">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
   {% if form.errors %}
     <div class="alert alert-danger" role="alert">
       Your username and password didn't match. Please try again.
@@ -46,6 +51,9 @@
 
   <p class="login-forgot">
     <a href="{% url 'password_reset' %}">Lost password?</a>
+  </p>
+  <p class="login-forgot">
+    <a href="{% url 'register' %}">Create an account</a>
   </p>
   </div>
 {% endblock %}
