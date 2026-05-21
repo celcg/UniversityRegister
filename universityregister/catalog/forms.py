@@ -8,6 +8,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
+from django.utils import  timezone as tzone
 
 from .models import ClassGroup, Course, Profesor, Student
 
@@ -189,7 +190,7 @@ class ClassGroupForm(forms.ModelForm):
 
         # start_date>now
         if start_date and not self.instance.pk: # only validate for new instances, not when editing existing ones
-            if start_date < datetime.timezone.now().date():
+            if start_date < tzone.now().date():
                 raise forms.ValidationError({
                     'start_date': "Start date must be a future date."
                 })

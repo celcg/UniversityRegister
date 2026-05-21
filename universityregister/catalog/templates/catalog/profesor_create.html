@@ -1,4 +1,8 @@
 {% extends "base_generic.html" %}
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/form_error.css' %}">
+{% endblock %}
 {% block content %}
 <h1 class="main-title">Creation Center</h1>
 <div class="row">
