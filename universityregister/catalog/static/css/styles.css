@@ -179,6 +179,11 @@ body {
     border-left: none;
     background-color: #f8f9fa;
     color: #6c757d;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 .search-container .btn-outline-secondary:hover {
