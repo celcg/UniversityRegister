@@ -91,6 +91,12 @@
                     {% if profesor_form.password2.help_text %}<small class="form-text text-muted">{{ profesor_form.password2.help_text }}</small>{% endif %}
                     {{ profesor_form.password2.errors }}
                 </div>
+                <div class="form-group">
+                    <label for="{{ profesor_form.passkey.id_for_label }}">{{ profesor_form.passkey.label }}</label>
+                    {{ profesor_form.passkey }}
+                    {% if profesor_form.passkey.help_text %}<small class="form-text text-muted">{{ profesor_form.passkey.help_text }}</small>{% endif %}
+                    {{ profesor_form.passkey.errors }}
+                </div>
 
                 <h4 class="h6 text-muted mt-3">Professor profile</h4>
                 <div class="form-group">
