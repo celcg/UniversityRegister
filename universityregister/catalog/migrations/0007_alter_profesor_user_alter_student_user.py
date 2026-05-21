@@ -1,0 +1,36 @@
+import django.db.models.deletion
+from django.conf import settings
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('catalog', '0006_create_student_professor_groups'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name='profesor',
+            name='user',
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='profesor',
+                to=settings.AUTH_USER_MODEL,
+            ),
+        ),
+        migrations.AlterField(
+            model_name='student',
+            name='user',
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='student',
+                to=settings.AUTH_USER_MODEL,
+            ),
+        ),
+    ]

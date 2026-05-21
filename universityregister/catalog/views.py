@@ -1,12 +1,53 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Q
 from django.db.models import F
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from .models import Course, Profesor
-from .forms import CourseForm, ClassGroupForm
+from .forms import CourseForm, ClassGroupForm, StudentRegistrationForm, ProfesorRegistrationForm
 from .models import Student, Profesor, Course, ClassGroup, Department
+
+def register_view(request):
+    """
+    Registration page for new students and professors.
+    Uses ModelForms with function-view POST binding (forms lecture pattern).
+    """
+    if request.user.is_authenticated:
+        return redirect('index')
+
+    student_form = StudentRegistrationForm()
+    profesor_form = ProfesorRegistrationForm()
+
+    if request.method == 'POST':
+        if 'submit_student' in request.POST:
+            student_form = StudentRegistrationForm(request.POST)
+            if student_form.is_valid():
+                student = student_form.save()
+                login(request, student.user)
+                messages.success(
+                    request,
+                    'Student account created. Welcome!',
+                )
+                return redirect('student-enroll')
+
+        elif 'submit_profesor' in request.POST:
+            profesor_form = ProfesorRegistrationForm(request.POST)
+            if profesor_form.is_valid():
+                profesor = profesor_form.save()
+                login(request, profesor.user)
+                messages.success(
+                    request,
+                    'Professor account created. Welcome!',
+                )
+                return redirect('profesor-classes')
+
+    return render(request, 'catalog/register.html', {
+        'student_form': student_form,
+        'profesor_form': profesor_form,
+    })
+
 
 def index(request):
     """View function for home page of site."""

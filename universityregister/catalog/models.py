@@ -5,7 +5,9 @@ from django.contrib.auth.models import User  # import User model for connecting 
 
 class Profesor(models.Model):
   """Model representing a profesor."""
-  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+  user = models.OneToOneField(
+      User, on_delete=models.CASCADE, null=True, blank=True, related_name='profesor',
+  )
   name = models.CharField(max_length=200, help_text='Enter the profesor name')
   
   def __str__(self):
@@ -52,7 +54,9 @@ class Course(models.Model):
   
 class Student(models.Model):
   """Model representing a student."""
-  user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+  user = models.OneToOneField(
+      User, on_delete=models.CASCADE, null=True, blank=True, related_name='student',
+  )
   first_name = models.CharField(verbose_name='First Name', max_length=200, help_text='Enter the student first name')
   last_name = models.CharField(verbose_name='Last Name', max_length=200, help_text='Enter the student last name')
   student_id = models.CharField(verbose_name='Student ID', max_length=50, unique=True, help_text='Enter the student ID')
