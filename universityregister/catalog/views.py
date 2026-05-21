@@ -126,7 +126,6 @@ class ProfesorListView(generic.ListView):
     ordering = ['name']
 
     #For adding search functionality
-
     def get_queryset(self):
         # getting queryset original
         queryset = super().get_queryset()
@@ -180,7 +179,7 @@ def profesor_create_view(request):
     group_form = ClassGroupForm()
 
     if request.method == 'POST':
-        # Logic to distinguish which form was submitted (submit_course vs submit_group)
+        # Logic to distinguish which form was submitted (submit_course vs submit_group depending on button)
         if 'submit_course' in request.POST:
             course_form = CourseForm(request.POST)
             if course_form.is_valid():

@@ -151,6 +151,7 @@ class CourseForm(forms.ModelForm):
         fields = ['course_code', 'title', 'description', 'academic_level', 'department', 'topic']
         
         # We apply 'form-control' to EVERY field to fix the layout
+        # automatize class="form-control" for all fields to let Bootstrap do its job
         widgets = {
             'course_code': forms.TextInput(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -188,7 +189,7 @@ class ClassGroupForm(forms.ModelForm):
 
         # start_date>now
         if start_date and not self.instance.pk: # only validate for new instances, not when editing existing ones
-            if start_date < timezone.now().date():
+            if start_date < datetime.timezone.now().date():
                 raise forms.ValidationError({
                     'start_date': "Start date must be a future date."
                 })

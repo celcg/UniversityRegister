@@ -7,11 +7,6 @@ from .models import Profesor, Level, Department, Course, Student, ClassGroup, Us
 
 from django.contrib.auth.admin import UserAdmin
 
-User = get_user_model()
-
-if admin.site.is_registered(User):
-    admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
 
 #LEVEL
 admin.site.register(Level)
@@ -177,4 +172,38 @@ class ClassGroupAdmin(admin.ModelAdmin):
 
 
 
+User = get_user_model()
+class ProfesorInline(admin.StackedInline):
+    model = Profesor
+    can_delete = False
+    verbose_name_plural = 'Profesor Profile'
+class StudentInline(admin.StackedInline):
+    model = Student
+    can_delete = False
+    verbose_name_plural = 'Student Profile'
+
+# Creating a custom UserAdmin to include the Profesor and Student profiles as inlines
+class MyUserAdmin(UserAdmin):
+    
+    def get_inlines(self, request, obj=None):
+        # for new user creation, show both inlines so admin can choose which profile to fill out
+        if obj is None:
+            return (ProfesorInline, StudentInline)
+        
+        inlines = []
+        
+        # Check if this user has a related Profesor profile in the database
+        if hasattr(obj, 'profesor'):
+            inlines.append(ProfesorInline)
+            
+        # Check if this user has a related Student profile in the database
+        if hasattr(obj, 'student'): # Make sure to use the correct related_name of your Student model
+            inlines.append(StudentInline)
+            
+        return tuple(inlines)
+User = get_user_model()
+# Deregister the default User admin and register our custom one that includes the Profesor and Student inlines
+if admin.site.is_registered(User):
+    admin.site.unregister(User)
+admin.site.register(User, MyUserAdmin)
 
