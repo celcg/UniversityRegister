@@ -12,7 +12,7 @@ from .models import Student, Profesor, Course, ClassGroup, Department
 def register_view(request):
     """
     Registration page for new students and professors.
-    Uses ModelForms with function-view POST binding (forms lecture pattern).
+    Uses ModelForms with function-view POST binding.
     """
     if request.user.is_authenticated:
         return redirect('index')

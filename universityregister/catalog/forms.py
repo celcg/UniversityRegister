@@ -1,6 +1,8 @@
 import datetime
+import secrets
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -120,7 +122,19 @@ class ProfesorRegistrationForm(UserAccountFieldsMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._add_user_account_fields()
-        self.order_fields(['username', 'password1', 'password2', 'name'])
+        self.fields['passkey'] = forms.CharField(
+            label='Professor registration passkey',
+            widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+            help_text='Required to register as a professor.',
+        )
+        self.order_fields(['username', 'password1', 'password2', 'passkey', 'name'])
+
+    def clean_passkey(self):
+        passkey = self.cleaned_data.get('passkey', '')
+        expected = getattr(settings, 'PROFESSOR_REGISTRATION_PASSKEY', '')
+        if not secrets.compare_digest(passkey, expected):
+            raise ValidationError(_('Invalid professor registration passkey.'))
+        return passkey
 
     @transaction.atomic
     def save(self, commit=True):

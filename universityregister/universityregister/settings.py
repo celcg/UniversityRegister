@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -124,3 +125,9 @@ LOGIN_REDIRECT_URL = '/'
 
 # Email backend for password resets (outputs to console for testing)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Passkey required to register as a professor (override via env in production)
+PROFESSOR_REGISTRATION_PASSKEY = os.environ.get(
+    'PROFESSOR_REGISTRATION_PASSKEY',
+    'appservers',
+)
