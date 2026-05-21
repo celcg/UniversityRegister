@@ -1,5 +1,6 @@
 from django import forms
 from .models import ClassGroup, Course
+from django.utils import timezone
 
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -30,6 +31,26 @@ class ClassGroupForm(forms.ModelForm):
             'class_id': forms.TextInput(attrs={'class': 'form-control'}),
             'maxStudents': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+
+        # end_date>start_date
+        if start_date and end_date:
+            if end_date <= start_date:
+                raise forms.ValidationError({
+                    'end_date': "End date must be after start date."
+                })
+
+        # start_date>now
+        if start_date and not self.instance.pk: # only validate for new instances, not when editing existing ones
+            if start_date < timezone.now().date():
+                raise forms.ValidationError({
+                    'start_date': "Start date must be a future date."
+                })
+
+        return cleaned_data
 
     def __init__(self, *args, **kwargs):
         """

@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
-
 from django.contrib.auth.models import User  # import User model for connecting with Profesor and Student
+
 
 class Profesor(models.Model):
   """Model representing a profesor."""

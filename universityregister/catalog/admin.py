@@ -1,9 +1,17 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django import forms
-
+from django.contrib.auth import get_user_model
 # Register your models here.
-from .models import Profesor, Level, Department, Course, Student, ClassGroup
+from .models import Profesor, Level, Department, Course, Student, ClassGroup, User
+
+from django.contrib.auth.admin import UserAdmin
+
+User = get_user_model()
+
+if admin.site.is_registered(User):
+    admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 #LEVEL
 admin.site.register(Level)
@@ -67,11 +75,14 @@ class StudentEnrollmentInline(admin.TabularInline):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_id', 'last_name', 'first_name', 'enrollment_year')
+    list_display = ('student_id', 'user', 'last_name', 'first_name', 'enrollment_year')
     list_filter = ('enrollment_year',)
-    search_fields = ('last_name', 'first_name', 'student_id')
+    search_fields = ('last_name', 'first_name', 'student_id', 'user__username')
     # Allows seeing which classes a student is in
     inlines = [StudentEnrollmentInline]
+    
+    # search based on the username of the related User model
+    raw_id_fields = ('user',)
 
 #PROFESOR
 class ClassGroupProfesorInline(admin.TabularInline):
@@ -79,18 +90,18 @@ class ClassGroupProfesorInline(admin.TabularInline):
     model = ClassGroup
     extra = 0  
     fields = ('class_id', 'course', 'start_date', 'status')
+
 @admin.register(Profesor)
 class ProfesorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_total_classes')
-    search_fields = ('name',)
+    list_display = ('name', 'user', 'get_total_classes') 
+    search_fields = ('name', 'user__username')
     inlines = [ClassGroupProfesorInline]
-
+    # search based on the username of the related User model
+    raw_id_fields = ('user',)
     # extra column to show the total number of classes a profesor is teaching
+    @admin.display(description='Number of Classes')
     def get_total_classes(self, obj):
         return obj.classes.count()
-    
-    get_total_classes.short_description = 'Number of Classes'
-
 #CLASS GROUP
 class ClassGroupAdminForm(forms.ModelForm):
 

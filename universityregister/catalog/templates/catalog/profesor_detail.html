@@ -25,7 +25,6 @@
             <div class="col-md-6">
               <p>
                 <strong>Status:</strong>
-                {# Regresamos al sistema manual de IF/ELSE que prefieres #}
                 {% if group.computed_status == 'OPEN' %}
                   <span class="status-open">Open</span>
                 {% elif group.computed_status == 'FULL' %}
