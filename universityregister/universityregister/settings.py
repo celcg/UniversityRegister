@@ -12,22 +12,26 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = BASE_DIR.parent / ".env"
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+load_dotenv(ENV_PATH)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-76(wh9)ss3&5-zfcg#9^*^8!sx3y^q4dgh#v$2&)f6vk3$0d2!'
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise Exception("SECRET_KEY not loaded correctly")
+#'django-insecure-76(wh9)ss3&5-zfcg#9^*^8!sx3y^q4dgh#v$2&)f6vk3$0d2! oldkey'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+DEBUG = False
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost"
+]
 
 # Application definition
 
@@ -118,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Redirect to home URL after login (Default is /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
