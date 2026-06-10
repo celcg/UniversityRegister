@@ -1,1 +1,1 @@
-web: cd universityregister && python manage.py migrate && gunicorn universityregister.wsgi
+web: cd universityregister && python manage.py migrate && gunicorn universityregister.wsgi:application
