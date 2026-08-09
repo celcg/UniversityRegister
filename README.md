@@ -72,7 +72,7 @@ Visit [http://localhost:8000](http://localhost:8000).
 
 ---
 
-## Deployment (Render)
+## Deployment (Render and Supabase)
 
 ### Environment Variables
 
@@ -93,6 +93,8 @@ Set these in Render → your service → **Environment**:
 | **Start Command** | `cd universityregister && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn universityregister.wsgi:application` |
 
 ---
+## Supabase Database
+Latest Update: Migrated DB to Supabase. Now Render requires connection to Supabase-
 
 ## Project Structure
 
