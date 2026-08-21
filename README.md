@@ -2,7 +2,7 @@
 
 A web application for managing university course enrollment, built with Django. Supports student and professor registration, authentication, and course management.
 
-🔗 **Live demo:** [https://universityregister.onrender.com](https://universityregister.onrender.com)
+🔗 **Live demo:** [https://universityregister.onrender.com](https://universityregister.onrender.com). If the application is unavailable, the free Render or Supabase instance may have been suspended due to inactivity. Feel free to contact me and I can reactivate it.
 
 ---
 
@@ -20,7 +20,7 @@ A web application for managing university course enrollment, built with Django. 
 ## Tech Stack
 
 - **Backend:** Django 6.0
-- **Database:** SQLite -> PostGRE (in development)
+- **Database:** SQLite -> PostGRE 
 - **Static files:** WhiteNoise
 - **Deployment:** Render
 
